@@ -62,7 +62,7 @@ export default function Game() {
       newPlayers[0].x = p.x;
       newPlayers[0].y = p.y;
       setPlayers(newPlayers);
-      setYourName(playerId);
+      setYourName(playerId + 1);
     }
   }, [decorOK]);
 
@@ -82,8 +82,8 @@ export default function Game() {
       };
       newPlayers.push(newPlayer);
       setPlayers(newPlayers);
-      setYourName(playerId + 1);
     }
+    setYourName(playerId + 1);
   }, [playerId]);
 
   useEffect(() => {

@@ -1,0 +1,164 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Arial;
+}
+
+body {
+  background-color: black;
+  height: auto;
+}
+
+#infos {
+  display: block;
+  height: 50px;
+  padding: 15px;
+  color: white;
+  text-align: center;
+  user-select: none;
+}
+
+#titre {
+  font-size: 1.2em;
+}
+
+.score {
+  font-weight: bold;
+  padding: 5px;
+  margin: 0;
+  display: flex;
+}
+
+.score .scorevalue {
+  background-color: white;
+  font-weight: bold;
+  padding: 5px;
+  margin: 0;
+}
+
+.score .playername {
+  color: white;
+  background-color: black;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 5px;
+}
+
+.score1 {
+  float: left;
+  text-align: left;
+  color: blue;
+}
+
+.score2 {
+  float: right;
+  text-align: right;
+  color: red;
+  flex-direction: row-reverse;
+}
+
+#board {
+  position: relative;
+}
+
+img, .player {
+  position: absolute;
+  user-select: none;
+}
+
+.name {
+  position: absolute;
+  width: 22px;
+  margin-top: 10px;
+  opacity: 0.8;
+  background-color: white;
+  text-align: center;
+  margin-left: 5px;
+  margin-right: 5px;
+  border-radius: 15px;
+}
+
+#auteur {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  text-align: right;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  user-select: none;
+}
+
+#parameters {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  text-align: left;
+  margin-left: 10px;
+  margin-bottom: 5px;
+  user-select: none;
+  color: white;
+}
+
+#initgame {
+  position: fixed;
+  bottom: 30px;
+  left: 10px;
+  user-select: none;
+  padding: 5px;
+}
+
+#parameters label {
+  margin-left: 5px;
+}
+
+#parameters .yourname {
+  font-size: 100%;
+  margin-left: 5px;
+  background-color: white;
+  text-align: center;
+}
+
+#controles {
+  text-align: center;
+  position: fixed;
+  bottom: -5px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin-bottom: 60px;
+}
+
+#controles .controle {
+  margin-right: 5px;
+  margin-top: 5px;
+  display: inline-block;
+  width: 60px;
+  user-select: none;
+}
+
+#controles button, #controles input, #controles label {
+  padding: 5px;
+}
+
+@media screen and (max-width: 767px) {
+
+  #infos {
+    height: 25px;
+  }
+
+  #controles .controle {
+    width: 50px;
+  }
+  
+}
+
+@media screen and (max-height: 700px) {
+
+  #infos {
+    height: 20px;
+  }
+
+  #controles {
+    margin-bottom: 10px;
+  }
+  
+}

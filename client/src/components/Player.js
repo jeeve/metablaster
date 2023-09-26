@@ -12,13 +12,14 @@ export default function Player({
   onReborn,
 }) {
   const deadTime = 20;
-  const [img, setImg] = useState(image);
+  const [visibility, setVisibilty] = useState(true);
   const [count, setCount] = useState(deadTime);
 
   const deltax = Math.floor(window.innerWidth / 2 - (init.ni * 32) / 2);
   const style = {
     left: deltax + x,
     top: y,
+    visibility: visibility? "visible" : "hidden",
   };
   let interval;
 
@@ -26,7 +27,7 @@ export default function Player({
     return setInterval(() => {
       if (dead) {
         setCount((prevCount) => prevCount - 1);
-        setImg((prevImage) => (prevImage === "" ? image : ""));
+        setVisibilty((prevVisibilty) => !prevVisibilty);
       }
     }, 200);
   };
@@ -51,7 +52,7 @@ export default function Player({
 
   return (
     <div className="player" style={style}>
-      {img !== "" ? <img src={"/images/" + img} alt="" /> : <></>}
+      <img src={"/images/" + image} alt="" />
       {displayName ? <span className="name">{name}</span> : <></>}
     </div>
   );

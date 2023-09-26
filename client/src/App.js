@@ -241,8 +241,7 @@ export default function Game() {
   }
 
   const handleExplode = (n) => {
-    let myPlayerScore = myPlayer().score;
-    //let theRobotScore = theRobot().score;
+    const playersToIncreaseScore = [];
     const newPlayers = players.map((player) => {
       const newPlayer = { ...player };
       if (
@@ -250,20 +249,23 @@ export default function Game() {
         Math.abs(player.y - util.getJ(n) * 32) < 16
       ) {
         newPlayer.dead = true;
-        if (player.image === "player.png") {
-          //          theRobotScore++;
-        } else {
-          myPlayerScore++;
+        if (decor[n].owner > -1) {
+          playersToIncreaseScore.push(decor[n].owner);
         }
       }
       return newPlayer;
+    });
+    newPlayers.map((player) => {
+      if (playersToIncreaseScore.includes(player.n)) { // on crédite tous les autres
+        newPlayers.filter((p) => p.n !== player.n).map((p2) => {
+          p2.score++;
+        });
+      }
     });
     const newDecor = Object.assign([], decor);
     newDecor[n].image = ""; // remove bomb
     setDecor(newDecor);
     newPlayers[decor[n].owner].bombs++; // on recredite le nombre de bombes dispo
-    newPlayers[myPlayer().n].score = myPlayerScore;
-    //    newPlayers[theRobot().n].score = theRobotScore;
     setPlayers(newPlayers);
     const newFires = [...fires];
     newFires.push(n);

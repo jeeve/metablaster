@@ -5,8 +5,8 @@ export default function Score({ n, name, displayName }) {
   }
   return (
     <>
-      <span className="scorevalue">{text}</span>
       {displayName ? <span className="playername">{name}</span> : <></>}
+      <span className="scorevalue">{text}</span>
     </>
   );
 }

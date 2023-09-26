@@ -26,7 +26,13 @@ body {
   font-weight: bold;
   padding: 5px;
   margin: 0;
-  display: flex;
+  text-align: right;
+  float: right;
+}
+
+.score li {
+  list-style-type: none;
+  margin-bottom: 5px;
 }
 
 .score .scorevalue {
@@ -45,14 +51,10 @@ body {
 }
 
 .score1 {
-  float: left;
-  text-align: left;
   color: blue;
 }
 
 .score2 {
-  float: right;
-  text-align: right;
   color: red;
   flex-direction: row-reverse;
 }

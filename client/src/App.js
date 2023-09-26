@@ -13,7 +13,7 @@ import * as api from "./api";
 
 export default function Game() {
   const inputRef = useRef(null);
-  const [playerId, setPlayerId] = useState(0);
+  const [playerId, setPlayerId] = useState(-1);
   const [soundOn, setSoundOn] = useState(false);
   const [displayName, setDisplayName] = useState(true);
   const [yourName, setYourName] = useState(1);
@@ -50,6 +50,7 @@ export default function Game() {
         });
       } else {
         setDecor(init.makeDecor(setDecorOK));
+        setPlayerId(0);
         api.register(0);
       }
     });
@@ -449,8 +450,16 @@ export default function Game() {
   return (
     <>
       <div id="infos">
-        <div className="score score1"></div>
         <span id="titre">Metablaster</span>
+      </div>
+      <div className="score">
+        <ul>
+      {players.map((player) => (
+        <li className={myPlayer() == player ? "score1" : "score2"}>
+          <Score n={player.score} name={player.name} displayName={displayName}></Score>
+          </li>
+      ))}
+        </ul>
       </div>
       <div
         id="board"

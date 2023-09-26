@@ -249,9 +249,7 @@ export default function Game() {
         Math.abs(player.y - util.getJ(n) * 32) < 16
       ) {
         newPlayer.dead = true;
-        if (decor[n].owner > -1) {
-          playersToIncreaseScore.push(decor[n].owner);
-        }
+        playersToIncreaseScore.push(player.n);
       }
       return newPlayer;
     });
@@ -273,25 +271,26 @@ export default function Game() {
   };
 
   const HandleBurn = (n) => {
-    let myPlayerScore = myPlayer().score;
-    //    let theRobotScore = theRobot().score;
-    players.map((player) => {
+    const playersToIncreaseScore = [];
+    const newPlayers = players.map((player) => {
+      const newPlayer = { ...player };
       if (
         Math.abs(player.x - util.getI(n) * 32) < 16 &&
         Math.abs(player.y - util.getJ(n) * 32) < 16
       ) {
-        if (!player.dead) {
-          player.dead = true;
-          if (player.image === "player.png") {
-            //            theRobotScore++;
-          } else {
-            myPlayerScore++;
-          }
-        }
+        newPlayer.dead = true;
+        playersToIncreaseScore.push(player.n);
+      }
+      return newPlayer;
+    });
+    newPlayers.map((player) => {
+      if (playersToIncreaseScore.includes(player.n)) { // on crédite tous les autres
+        newPlayers.filter((p) => p.n !== player.n).map((p2) => {
+          p2.score++;
+        });
       }
     });
-    players[myPlayer().n].score = myPlayerScore;
-    //   players[theRobot().n].score = theRobotScore;
+    setPlayers(newPlayers);
     const newDecor = Object.assign([], decor);
     if (decor[n].image === "brick.png") {
       newDecor[n].image = "";

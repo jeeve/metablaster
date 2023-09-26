@@ -480,7 +480,7 @@ export default function Game() {
             name={player.name}
             displayName={displayName}
             dead={player.dead}
-            image={player.image}
+            image={myPlayer() == player ? "player.png" : "robot.png"}
             onReborn={handleReborn}
           />
         ))}

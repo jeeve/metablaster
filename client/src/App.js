@@ -147,7 +147,7 @@ export default function Game() {
       newPlayers[playerId].name = e.target.value;
       setPlayers(players);
       setYourName(e.target.value);
-      //api.uploadPlayers(playerId, players);
+      api.uploadPlayers(playerId, players);
     }
   };
 

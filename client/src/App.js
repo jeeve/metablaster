@@ -45,8 +45,8 @@ export default function Game() {
           setPlayers(game.players);
           setDisableUpdate(false);
           setDecorOK(true);
-          setPlayerId(players.length);
-          api.register(players.length);
+          setPlayerId(nbPlayers);
+          api.register(nbPlayers);
         });
       } else {
         setDecor(init.makeDecor(setDecorOK));

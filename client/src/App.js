@@ -249,6 +249,7 @@ export default function Game() {
         Math.abs(player.y - util.getJ(n) * 32) < 16
       ) {
         newPlayer.dead = true;
+        newPlayer.score--;
         playersToIncreaseScore.push(player.n);
       }
       return newPlayer;
@@ -279,17 +280,10 @@ export default function Game() {
         Math.abs(player.y - util.getJ(n) * 32) < 16
       ) {
         player.dead = true;
-        playersToIncreaseScore.push(player.n);
+        player.score--;
       }
     });
-
-    players.map((player) => {
-      if (!playersToIncreaseScore.includes(player.n)) {
-        // on crédite tous les autres
-        player.score++;
-      }
-    });
-  
+ 
     const newDecor = Object.assign([], decor);
     if (decor[n].image === "brick.png") {
       newDecor[n].image = "";

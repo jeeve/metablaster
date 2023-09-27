@@ -5,7 +5,6 @@ import * as util from "../util";
 
 export default function Fire({ decor, n, onBurn, onEnd }) {
   const [end, setEnd] = useState(false);
-  const [burned, setBurned] = useState([]);
   const [energy, setEnergy] = useState(init.energyMax);
   const [spritesL, setSpritesL] = useState([]);
   const [spritesR, setSpritesR] = useState([]);
@@ -155,9 +154,6 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
 
   useEffect(() => {
     if (end && spritesD.length ===0 && spritesL.length === 0 && spritesR.length === 0 && spritesU.length === 0) {
-      burned.map((i) => {
-        onBurn(i);
-      })
       onEnd(n);
     }
   }, [end, spritesD, spritesL, spritesR, spritesU]);

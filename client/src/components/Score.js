@@ -1,8 +1,6 @@
 export default function Score({ n, name, displayName }) {
-  let text = "";
-  if (n > -1) {
-    text = n;
-  }
+  let text = n;
+
   return (
     <>
       {displayName ? <span className="playername">{name}</span> : <></>}

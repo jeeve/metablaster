@@ -273,26 +273,23 @@ export default function Game() {
 
   const HandleBurn = (n) => {
     const playersToIncreaseScore = [];
-    let newPlayers = players.map((player) => {
-      const newPlayer = { ...player };
+    players.map((player) => {
       if (
         Math.abs(player.x - util.getI(n) * 32) < 16 &&
         Math.abs(player.y - util.getJ(n) * 32) < 16
       ) {
-        newPlayer.dead = true;
+        player.dead = true;
         playersToIncreaseScore.push(player.n);
       }
-      return newPlayer;
     });
-    newPlayers = newPlayers.map((player) => {
-      const newPlayer = { ...player };
+
+    players.map((player) => {
       if (!playersToIncreaseScore.includes(player.n)) {
         // on crédite tous les autres
-        newPlayer.score++;
+        player.score++;
       }
-      return player;
     });
-    setPlayers(newPlayers);
+  
     const newDecor = Object.assign([], decor);
     if (decor[n].image === "brick.png") {
       newDecor[n].image = "";

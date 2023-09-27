@@ -115,8 +115,8 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
           setNbBurned((prevNbBurned) => prevNbBurned + 1);
         }
         if (nbBurned() === 0) {
-          burned.push(newK);
-          //onBurn(newK);
+          //burned.push(newK);
+          onBurn(newK);
         }
         return newSprites;
       });

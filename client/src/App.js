@@ -242,7 +242,7 @@ export default function Game() {
 
   const handleExplode = (n) => {
     const playersToIncreaseScore = [];
-    const newPlayers = players.map((player) => {
+    let newPlayers = players.map((player) => {
       const newPlayer = { ...player };
       if (
         Math.abs(player.x - util.getI(n) * 32) < 16 &&
@@ -253,12 +253,13 @@ export default function Game() {
       }
       return newPlayer;
     });
-    newPlayers.map((player) => {
-      if (playersToIncreaseScore.includes(player.n)) { // on crédite tous les autres
-        newPlayers.filter((p) => p.n !== player.n).map((p2) => {
-          p2.score++;
-        });
+    newPlayers = newPlayers.map((player) => {
+      const newPlayer = { ...player };
+      if (!playersToIncreaseScore.includes(player.n)) {
+        // on crédite tous les autres
+        newPlayer.score++;
       }
+      return player;
     });
     const newDecor = Object.assign([], decor);
     newDecor[n].image = ""; // remove bomb
@@ -272,7 +273,7 @@ export default function Game() {
 
   const HandleBurn = (n) => {
     const playersToIncreaseScore = [];
-    const newPlayers = players.map((player) => {
+    let newPlayers = players.map((player) => {
       const newPlayer = { ...player };
       if (
         Math.abs(player.x - util.getI(n) * 32) < 16 &&
@@ -283,12 +284,13 @@ export default function Game() {
       }
       return newPlayer;
     });
-    newPlayers.map((player) => {
-      if (playersToIncreaseScore.includes(player.n)) { // on crédite tous les autres
-        newPlayers.filter((p) => p.n !== player.n).map((p2) => {
-          p2.score++;
-        });
+    newPlayers = newPlayers.map((player) => {
+      const newPlayer = { ...player };
+      if (!playersToIncreaseScore.includes(player.n)) {
+        // on crédite tous les autres
+        newPlayer.score++;
       }
+      return player;
     });
     setPlayers(newPlayers);
     const newDecor = Object.assign([], decor);
@@ -455,11 +457,15 @@ export default function Game() {
       </div>
       <div className="score">
         <ul>
-      {players.map((player) => (
-        <li className={myPlayer() == player ? "score1" : "score2"}>
-          <Score n={player.score} name={player.name} displayName={displayName}></Score>
-          </li>
-      ))}
+          {players.map((player) => (
+            <li className={myPlayer() == player ? "score1" : "score2"}>
+              <Score
+                n={player.score}
+                name={player.name}
+                displayName={displayName}
+              ></Score>
+            </li>
+          ))}
         </ul>
       </div>
       <div

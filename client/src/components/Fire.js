@@ -122,8 +122,8 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
           setNbBurned((prevNbBurned) => prevNbBurned + 1);
         }
         if (nbBurned() === 0) {
-          //burned.push(newK);
-          onBurn(newK);
+          burned.push(newK);
+          //onBurn(newK);
         }
         return newSprites;
       });
@@ -154,7 +154,7 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
 
   useEffect(() => {
     burned.map((i) => {
-    //  onBurn(i);
+      onBurn(i);
     })
   }, [burned]);
  

@@ -150,7 +150,11 @@ img, .player {
   #controles .controle {
     width: 50px;
   }
-  
+
+  .score {
+    margin-top: 500px;
+  }
+ 
 }
 
 @media screen and (max-height: 700px) {

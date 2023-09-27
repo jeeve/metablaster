@@ -28,7 +28,6 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
   };
 
   useEffect(() => {
-    const newBurned = [...burned];
     spread(
       setSpritesL,
       setNbBurnedL,
@@ -39,7 +38,6 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
       "fire-h-l.png",
       "fire-h-r.png",
       "fire-h-e.png",
-      newBurned
     );
     spread(
       setSpritesR,
@@ -51,7 +49,6 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
       "fire-h-r.png",
       "fire-h-l.png",
       "fire-h-e.png",
-      newBurned
     );
     spread(
       setSpritesU,
@@ -63,7 +60,6 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
       "fire-v-u.png",
       "fire-v-d.png",
       "fire-v-e.png",
-      newBurned
     );
     spread(
       setSpritesD,
@@ -75,9 +71,7 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
       "fire-v-d.png",
       "fire-v-u.png",
       "fire-v-e.png", 
-      newBurned
     );
-    setBurned(newBurned);
     setEnd(true);
   }, [energy]);
 
@@ -91,7 +85,6 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
     image2,
     image3,
     image4,
-    burned
   ) => {
     if (energy > init.energyMax / 2) {
       setSprites((prevSprites) => {
@@ -122,7 +115,9 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
           setNbBurned((prevNbBurned) => prevNbBurned + 1);
         }
         if (nbBurned() === 0) {
-          burned.push(newK);
+          const newBurned = [...burned];
+          newBurned.push(newK);
+          setBurned(newBurned);
           //onBurn(newK);
         }
         return newSprites;
@@ -153,12 +148,6 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
   };
 
   useEffect(() => {
-    burned.map((i) => {
-      onBurn(i);
-    })
-  }, [burned]);
- 
-  useEffect(() => {
     const interval = startTimer();
 
     return () => {
@@ -168,6 +157,9 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
 
   useEffect(() => {
     if (end && spritesD.length ===0 && spritesL.length === 0 && spritesR.length === 0 && spritesU.length === 0) {
+      burned.map((i) => {
+        onBurn(i);
+      })
       onEnd(n);
     }
   }, [end, spritesD, spritesL, spritesR, spritesU]);

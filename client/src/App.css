@@ -28,6 +28,7 @@ body {
   margin: 0;
   text-align: right;
   float: right;
+  user-select: none;
 }
 
 .score li {

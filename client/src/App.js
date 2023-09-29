@@ -101,6 +101,7 @@ export default function Game() {
             api.downloadPlayers(playerId).then((rep) => {
               setDisableUpdate(true);
               setPlayers(rep.players);
+              setYourName(rep.players[playerId].name);
             });
           }
           if (r.toUpdate.idPlayer > -1) {

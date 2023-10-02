@@ -6,6 +6,7 @@ import * as util from "../util";
 export default function Fire({ decor, n, onBurn, onEnd }) {
   const [end, setEnd] = useState(false);
   const [energy, setEnergy] = useState(init.energyMax);
+  const [burned, setBurned] = useState([]);
   const [spritesL, setSpritesL] = useState([]);
   const [spritesR, setSpritesR] = useState([]);
   const [spritesU, setSpritesU] = useState([]);
@@ -114,10 +115,12 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
           setNbBurned((prevNbBurned) => prevNbBurned + 1);
         }
         if (nbBurned() === 0) {
-          //burned.push(newK);
-          onBurn(newK);
+          const newBurned = [...burned];
+          newBurned.push(newK);
+          setBurned(newBurned);
+          //console.log(burned)
+          //onBurn(newK);
         }
-        return newSprites;
       });
     } else {
       setSprites((prevSprites) => {
@@ -151,6 +154,10 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
       clearInterval(interval);
     };
   }, [n]);
+
+  useEffect(() => {
+      onBurn(burned[burned.length - 1]);
+  }, [burned]);
 
   useEffect(() => {
     if (end && spritesD.length ===0 && spritesL.length === 0 && spritesR.length === 0 && spritesU.length === 0) {

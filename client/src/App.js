@@ -261,17 +261,20 @@ export default function Game() {
   };
 
   const HandleBurn = (n) => {
-    const playersToIncreaseScore = [];
-    players.map((player) => {
+
+    const newPlayers = players.map((player) => {
+      const newPlayer = { ...player };
       if (
         Math.abs(player.x - util.getI(n) * 32) < 16 &&
         Math.abs(player.y - util.getJ(n) * 32) < 16
       ) {
-        player.dead = true;
-        player.score--;
+        newPlayer.dead = true;
+        newPlayer.score--;
       }
+      return newPlayer;
     });
- 
+    setPlayers(newPlayers);
+
     const newDecor = Object.assign([], decor);
     if (decor[n].image === "brick.png") {
       newDecor[n].image = "";
@@ -283,6 +286,7 @@ export default function Game() {
       fires.push(n);
       setFires(newFires);
     }
+
   };
 
   function handleFireEnd(n) {

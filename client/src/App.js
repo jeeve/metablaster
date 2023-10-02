@@ -242,32 +242,19 @@ export default function Game() {
   }
 
   const handleExplode = (n) => {
-    const playersToIncreaseScore = [];
-    let newPlayers = players.map((player) => {
-      const newPlayer = { ...player };
+    players[decor[n].owner].bombs++;
+    players.map((player) => {
       if (
         Math.abs(player.x - util.getI(n) * 32) < 16 &&
         Math.abs(player.y - util.getJ(n) * 32) < 16
       ) {
-        newPlayer.dead = true;
-        newPlayer.score--;
-        playersToIncreaseScore.push(player.n);
+        player.dead = true;
+        player.score--;
       }
-      return newPlayer;
-    });
-    newPlayers = newPlayers.map((player) => {
-      const newPlayer = { ...player };
-      if (!playersToIncreaseScore.includes(player.n)) {
-        // on crédite tous les autres
-        newPlayer.score++;
-      }
-      return player;
     });
     const newDecor = Object.assign([], decor);
     newDecor[n].image = ""; // remove bomb
     setDecor(newDecor);
-    newPlayers[decor[n].owner].bombs++; // on recredite le nombre de bombes dispo
-    setPlayers(newPlayers);
     const newFires = [...fires];
     newFires.push(n);
     setFires(newFires);

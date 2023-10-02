@@ -121,6 +121,7 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
           //console.log(burned)
           //onBurn(newK);
         }
+        return newSprites;
       });
     } else {
       setSprites((prevSprites) => {

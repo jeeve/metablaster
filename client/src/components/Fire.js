@@ -28,6 +28,7 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
   };
 
   useEffect(() => {
+    const newBurned = [...burned];
     spread(
       setSpritesL,
       setNbBurnedL,
@@ -38,6 +39,7 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
       "fire-h-l.png",
       "fire-h-r.png",
       "fire-h-e.png",
+      newBurned
     );
     spread(
       setSpritesR,
@@ -49,6 +51,7 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
       "fire-h-r.png",
       "fire-h-l.png",
       "fire-h-e.png",
+      newBurned
     );
     spread(
       setSpritesU,
@@ -60,6 +63,7 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
       "fire-v-u.png",
       "fire-v-d.png",
       "fire-v-e.png",
+      newBurned
     );
     spread(
       setSpritesD,
@@ -71,7 +75,10 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
       "fire-v-d.png",
       "fire-v-u.png",
       "fire-v-e.png", 
+      newBurned
     );
+    setBurned(newBurned);
+    console.log(newBurned)
     setEnd(true);
   }, [energy]);
 
@@ -85,6 +92,7 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
     image2,
     image3,
     image4,
+    newBurned
   ) => {
     if (energy > init.energyMax / 2) {
       setSprites((prevSprites) => {
@@ -115,9 +123,7 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
           setNbBurned((prevNbBurned) => prevNbBurned + 1);
         }
         if (nbBurned() === 0) {
-          const newBurned = [...burned];
           newBurned.push(newK);
-          setBurned(newBurned);
           //console.log(burned)
           //onBurn(newK);
         }
@@ -157,7 +163,9 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
   }, [n]);
 
   useEffect(() => {
-      onBurn(burned[burned.length - 1]);
+    burned.map((n) => {
+      onBurn(n);
+    });
   }, [burned]);
 
   useEffect(() => {

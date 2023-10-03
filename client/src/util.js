@@ -17,6 +17,19 @@ export function blockAt(decor, i, j) {
   return !(decor[n].image === "");
 }
 
+export function playerAt(n, players) {
+  let ok = false;
+  players.map((player) => {
+    if (
+      Math.abs(player.x - getI(n) * 32) < 16 &&
+      Math.abs(player.y - getJ(n) * 32) < 16
+    ) {
+      ok = true;
+    }
+  });
+  return ok;
+}
+
 export function emptyRandomPosition(decor) {
   const maxNumberTest = 1000;
   let numberTest = 0;
@@ -24,7 +37,7 @@ export function emptyRandomPosition(decor) {
     const i = Math.floor(Math.random() * init.ni);
     const j = Math.floor(Math.random() * init.nj);
     if (!blockAt(decor, i, j)) {
-      return { x: i*32, y: j*32 };
+      return { x: i * 32, y: j * 32 };
     }
     numberTest++;
   }
@@ -50,7 +63,8 @@ export function spriteDown(n) {
 function getObjectsNearXY(decor, players, player, x, y) {
   const objects = decor.filter((sprite) => {
     return (
-      sprite.image !== "" && !sprite.image.includes("bomb") /*&& sprite.x !== x && sprite.y !== y 
+      sprite.image !== "" &&
+      !sprite.image.includes("bomb") /*&& sprite.x !== x && sprite.y !== y 
       Math.sqrt(
         Math.pow(sprite.x - x, 2) + Math.pow(sprite.y - y, 2) <=
           91
@@ -59,14 +73,16 @@ function getObjectsNearXY(decor, players, player, x, y) {
   });
   players.map((p) => {
     if (p !== player) {
-    objects.push(p);
+      objects.push(p);
     }
   });
   return objects;
 }
 
 function pointInObject(object, x, y) {
-  return x >= object.x && x <= object.x + 31 && y >= object.y && y <= object.y + 31;
+  return (
+    x >= object.x && x <= object.x + 31 && y >= object.y && y <= object.y + 31
+  );
 }
 
 export function isOkForXY(decor, players, player, x, y) {
@@ -78,5 +94,6 @@ export function isOkForXY(decor, players, player, x, y) {
         pointInObject(object, x + 30, y + 30) ||
         pointInObject(object, x + 1, y + 30)
       );
-    }).length === 0)
+    }).length === 0
+  );
 }

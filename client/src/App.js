@@ -199,6 +199,66 @@ export default function Game() {
     dropBomb(myPlayer());
   }
 
+  const handleExplode = (n) => {
+    const newPlayers = Object.assign([], players);
+    newPlayers.map((player) => {
+      if (
+        Math.abs(player.x - util.getI(n) * 32) < 16 &&
+        Math.abs(player.y - util.getJ(n) * 32) < 16
+      ) {
+        player.dead = true;
+        player.score--;
+      }
+    });
+    newPlayers[decor[n].owner].bombs++;
+    setPlayers(newPlayers);
+
+    const newDecor = Object.assign([], decor);
+    newDecor[n].image = ""; // remove bomb
+    setDecor(newDecor);
+    const newFires = [...fires];
+    newFires.push(n);
+    setFires(newFires);
+  };
+
+  const HandleBurn = (n) => {
+    const newPlayers = Object.assign([], players);
+    newPlayers.map((player) => {
+      if (
+        Math.abs(player.x - util.getI(n) * 32) < 16 &&
+        Math.abs(player.y - util.getJ(n) * 32) < 16
+      ) {
+        if (!player.dead) {
+          player.dead = true;
+          player.score--;
+        }
+      }
+    });
+    setPlayers(newPlayers);
+
+    const newDecor = Object.assign([], decor);
+    if (decor[n].image === "brick.png") {
+      newDecor[n].image = "";
+      setDecor(newDecor);
+    } else if (decor[n].image.includes("bomb")) {
+      newDecor[n].explode = true; // chain reaction
+      setDecor(newDecor);
+      const newFires = [...fires];
+      fires.push(n);
+      setFires(newFires);
+    }
+  };
+
+  function handleFireEnd(n) {
+    setFires(fires.filter((elt) => elt !== n)); // on supprime le fire
+  }
+
+  const handleReborn = (n) => {
+    const newPlayers = Object.assign([], players);
+    newPlayers[n].dead = false;
+    setPlayers(newPlayers);
+  };
+
   function handleKeyDown(event) {
     if (event.code === "ArrowLeft") {
       event.preventDefault();
@@ -240,64 +300,6 @@ export default function Game() {
       setDisplacement("");
     }
   }
-
-  const handleExplode = (n) => {
-    const newPlayers = Object.assign([], players);
-    newPlayers.map((player) => {
-      if (
-        Math.abs(player.x - util.getI(n) * 32) < 16 &&
-        Math.abs(player.y - util.getJ(n) * 32) < 16
-      ) {
-        player.dead = true;
-        player.score--;
-      }
-    });
-    newPlayers[decor[n].owner].bombs++;
-    setPlayers(newPlayers);
-
-    const newDecor = Object.assign([], decor);
-    newDecor[n].image = ""; // remove bomb
-    setDecor(newDecor);
-    const newFires = [...fires];
-    newFires.push(n);
-    setFires(newFires);
-  };
-
-  const HandleBurn = (n) => {
-    const newPlayers = Object.assign([], players);
-    newPlayers.map((player) => {
-      if (
-        Math.abs(player.x - util.getI(n) * 32) < 16 &&
-        Math.abs(player.y - util.getJ(n) * 32) < 16
-      ) {
-        player.dead = true;
-        player.score--;
-      }
-    });
-    setPlayers(newPlayers);
-
-    const newDecor = Object.assign([], decor);
-    if (decor[n].image === "brick.png") {
-      newDecor[n].image = "";
-      setDecor(newDecor);
-    } else if (decor[n].image.includes("bomb")) {
-      newDecor[n].explode = true; // chain reaction
-      setDecor(newDecor);
-      const newFires = [...fires];
-      fires.push(n);
-      setFires(newFires);
-    }
-  };
-
-  function handleFireEnd(n) {
-    setFires(fires.filter((elt) => elt !== n)); // on supprime le fire
-  }
-
-  const handleReborn = (n) => {
-    const newPlayers = Object.assign([], players);
-    newPlayers[n].dead = false;
-    setPlayers(newPlayers);
-  };
 
   /*
   useEffect(() => {
@@ -502,6 +504,7 @@ export default function Game() {
           <Fire
             key={n}
             decor={decor}
+            players={players}
             n={sprite}
             onBurn={HandleBurn}
             onEnd={handleFireEnd}

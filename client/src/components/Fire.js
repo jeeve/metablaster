@@ -3,7 +3,7 @@ import Sprite from "./Sprite";
 import * as init from "../init";
 import * as util from "../util";
 
-export default function Fire({ decor, n, onBurn, onEnd }) {
+export default function Fire({ decor, players, n, onBurn, onEnd }) {
   const [end, setEnd] = useState(false);
   const [energy, setEnergy] = useState(init.energyMax);
   const [burned, setBurned] = useState([]);
@@ -123,8 +123,6 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
         }
         if (nbBurned() === 0) {
           newBurned.push(newK);
-          //console.log(burned)
-          //onBurn(newK);
         }
         return newSprites;
       });

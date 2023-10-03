@@ -45,9 +45,14 @@ class Game {
         } else {
           return elt;
         }
-      })
-      this.reindexPlayers();
+      });
       this.signals.delete(idPlayer);
+      this.signals.forEach((value, key, map) => {
+        if (value >= idPlayer) {
+          this.signals.set(key, value - 1);
+        }
+      }); 
+      this.reindexPlayers();
     }
 
     signalsAnalyse() {

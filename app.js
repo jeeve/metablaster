@@ -48,12 +48,15 @@ app.get("/api/signal/:idplayer", (req, res) => {
   const idPlayer = Number(req.params.idplayer);
   //console.log("signal " + idPlayer);
   game.signals.set(idPlayer, Date.now());
-  const toUpdate = { decor: false, players: false, idPlayer: -1 };
+  const toUpdate = { decor: false, players: false, fires: false, idPlayer: -1 };
   if (game.toUpdateDecor.includes(idPlayer)) {
     toUpdate.decor = true;
   }
   if (game.toUpdatePlayers.includes(idPlayer)) {
     toUpdate.players = true;
+  }
+  if (game.toUpdateFires.includes(idPlayer)) {
+    toUpdate.fires = true;
   }
   if (game.idPlayersToDecrease.includes(idPlayer)) {
     toUpdate.idPlayer = idPlayer - 1;
@@ -124,6 +127,22 @@ app.post("/api/uploadplayers/", (req, res) => {
   res.end();
 });
 
+app.post("/api/uploadfires/", (req, res) => {
+  const idPlayer = Number(req.body.idPlayer);
+  console.log("upload fires " + idPlayer);
+  game.fires = req.body.fires;
+  console.log(game.toUpdateFires);
+  game.players.map((elt) => {
+    if (elt.n != idPlayer) {
+      if (!game.toUpdateFires.includes(elt.n)) {
+        game.toUpdateFires.push(elt.n);
+      }
+    }
+  });
+  console.log(game.toUpdateFires);
+  res.end();
+});
+
 app.get("/api/downloadgame/:idplayer", (req, res) => {
   const idPlayer = Number(req.params.idplayer);
   console.log("download game " + idPlayer);
@@ -148,6 +167,15 @@ app.get("/api/downloadplayers/:idplayer", (req, res) => {
   console.log(game.toUpdatePlayers);
   res.setHeader("Content-Type", "application/json");
   res.end(JSON.stringify({ players: game.players }));
+});
+
+app.get("/api/downloadfires/:idplayer", (req, res) => {
+  const idPlayer = Number(req.params.idplayer);
+  console.log("download fires " + idPlayer);
+  game.toUpdateFires = game.toUpdateFires.filter((elt) => elt != idPlayer);
+  console.log(game.toUpdateFires);
+  res.setHeader("Content-Type", "application/json");
+  res.end(JSON.stringify({ fires: game.fires }));
 });
 
 /*

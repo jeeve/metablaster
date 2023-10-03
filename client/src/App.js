@@ -104,6 +104,12 @@ export default function Game() {
               setYourName(rep.players[playerId].name);
             });
           }
+          if (r.toUpdate.fires) {
+            api.downloadFires(playerId).then((rep) => {
+              setDisableUpdate(true);
+              setFires(rep.fires);
+            });
+          }
           if (r.toUpdate.idPlayer > -1) {
             console.log(r.toUpdate.idPlayer);
             setPlayerId(r.toUpdate.idPlayer);
@@ -128,6 +134,12 @@ export default function Game() {
       api.uploadPlayers(playerId, players);
     }
   }, [players]);
+
+  useEffect(() => {
+    if (decorOK && !disableUpdate) {
+      api.uploadFires(playerId, fires);
+    }
+  }, [fires]);  
 
   useEffect(() => {
     if (inputRef.current) {

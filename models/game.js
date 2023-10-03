@@ -2,8 +2,10 @@ class Game {
     constructor() {
       this.decor = [];
       this.players = [];
+      this.fires = [];
       this.toUpdateDecor = [];
       this.toUpdatePlayers = [];
+      this.toUpdateFires = [];
       this.signals = new Map;
       this.idPlayersToDecrease = [];
     }
@@ -11,8 +13,11 @@ class Game {
     init() {
       this.decor = [];
       this.players = [];
+      this.fires = [];
       this.toUpdateDecor = [];
       this.toUpdatePlayers = [];
+      this.toUpdateDecor = [];
+      this.toUpdateFires = [];
       this.idPlayersToDecreas = [];
       this.signals.clear();
     }

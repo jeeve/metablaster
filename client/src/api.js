@@ -66,6 +66,23 @@ export function uploadPlayers(idPlayer, players) {
   fetch("/api/uploadplayers/", init);
 }
 
+export function uploadFires(idPlayer, fires) {
+  const init = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      idPlayer: idPlayer,
+      fires: fires,
+    }),
+    mode: "cors",
+    credentials: "same-origin",
+  };
+
+  fetch("/api/uploadfires/", init);
+}
+
 export function register(idPlayer) {
   const init = {
     method: "GET",
@@ -141,6 +158,25 @@ export async function downloadPlayers(idPlayer) {
   .then(response => players = response);
 
   return players;
+}
+
+export async function downloadFires(idPlayer) {
+
+  let fires = {};
+
+  const init = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    mode: "cors",
+    credentials: "same-origin",
+  };
+
+  await fetch("/api/downloadfires/"+ idPlayer, init).then(response => response.json())
+  .then(response => fires = response);
+
+  return fires;
 }
 
 export async function signal(idPlayer) {

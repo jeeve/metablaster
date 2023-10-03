@@ -243,15 +243,20 @@ export default function Game() {
 
   const handleExplode = (n) => {
     players[decor[n].owner].bombs++;
-    players.map((player) => {
+    const newPlayers = players.map((player) => {
+      const newPlayer = { ...player };
       if (
         Math.abs(player.x - util.getI(n) * 32) < 16 &&
         Math.abs(player.y - util.getJ(n) * 32) < 16
       ) {
-        player.dead = true;
-        player.score--;
+        newPlayer.dead = true;
+        newPlayer.score--;
       }
+      return newPlayer;
     });
+    newPlayers[decor[n].owner].bombs++;
+    setPlayers(newPlayers);
+
     const newDecor = Object.assign([], decor);
     newDecor[n].image = ""; // remove bomb
     setDecor(newDecor);

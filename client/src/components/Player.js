@@ -38,6 +38,7 @@ export default function Player({
 
       return () => {
         clearInterval(interval);
+        setVisibilty(true);
       };
     }
   }, [dead]);

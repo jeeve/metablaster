@@ -78,7 +78,6 @@ export default function Fire({ decor, n, onBurn, onEnd }) {
       newBurned
     );
     setBurned(newBurned);
-    console.log(newBurned)
     setEnd(true);
   }, [energy]);
 

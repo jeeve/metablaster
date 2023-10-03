@@ -242,16 +242,15 @@ export default function Game() {
   }
 
   const handleExplode = (n) => {
-    const newPlayers = players.map((player) => {
-      const newPlayer = { ...player };
+    const newPlayers = Object.assign([], players);
+    newPlayers.map((player) => {
       if (
         Math.abs(player.x - util.getI(n) * 32) < 16 &&
         Math.abs(player.y - util.getJ(n) * 32) < 16
       ) {
-        newPlayer.dead = true;
-        newPlayer.score--;
+        player.dead = true;
+        player.score--;
       }
-      return newPlayer;
     });
     newPlayers[decor[n].owner].bombs++;
     setPlayers(newPlayers);
@@ -265,17 +264,15 @@ export default function Game() {
   };
 
   const HandleBurn = (n) => {
-
-    const newPlayers = players.map((player) => {
-      const newPlayer = { ...player };
+    const newPlayers = Object.assign([], players);
+    newPlayers.map((player) => {
       if (
         Math.abs(player.x - util.getI(n) * 32) < 16 &&
         Math.abs(player.y - util.getJ(n) * 32) < 16
       ) {
-        newPlayer.dead = true;
-        newPlayer.score--;
+        player.dead = true;
+        player.score--;
       }
-      return newPlayer;
     });
     setPlayers(newPlayers);
 
@@ -290,7 +287,6 @@ export default function Game() {
       fires.push(n);
       setFires(newFires);
     }
-
   };
 
   function handleFireEnd(n) {

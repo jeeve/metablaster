@@ -39,6 +39,13 @@ class Game {
       for (let i = idPlayer; i < this.players.length; i++) {
         this.idPlayersToDecrease.push(i);
       }
+      this.toUpdatePlayers = this.toUpdatePlayers.map((elt) => {
+        if (elt >= idPlayer) {
+          return elt - 1;
+        } else {
+          return elt;
+        }
+      })
       this.reindexPlayers();
       this.signals.delete(idPlayer);
     }

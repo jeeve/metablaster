@@ -35,10 +35,10 @@ class Game {
           }
         }
       });
+      this.players = this.players.filter((elt, i) => elt.n !== idPlayer);
       for (let i = idPlayer; i < this.players.length; i++) {
         this.idPlayersToDecrease.push(i);
       }
-      this.players = this.players.filter((elt, i) => elt.n !== idPlayer);
       this.reindexPlayers();
       this.signals.delete(idPlayer);
     }
@@ -53,7 +53,7 @@ class Game {
     }
 
     reindexPlayers() {
-      this.player = this.players.map((elt, i) => {
+      this.players.map((elt, i) => {
         elt.n = i;
       });
     }

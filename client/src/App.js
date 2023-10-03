@@ -242,7 +242,6 @@ export default function Game() {
   }
 
   const handleExplode = (n) => {
-    players[decor[n].owner].bombs++;
     const newPlayers = players.map((player) => {
       const newPlayer = { ...player };
       if (

@@ -71,6 +71,10 @@ img, .player {
   user-select: none;
 }
 
+button {
+  font-size: 100%;
+}
+
 .name {
   position: absolute;
   width: 22px;
@@ -151,7 +155,7 @@ img, .player {
   }
 
   #controles .controle {
-    width: 50px;
+    width: 55px;
   }
 
   .score {

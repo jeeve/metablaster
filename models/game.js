@@ -47,13 +47,13 @@ class Game {
       this.signals.delete(idPlayer);
 
       const newSignals = new Map;
-      for (let [key, value] of this.signals) {
+      this.signals.forEach((value, key, map) => {
         if (key > idPlayer) {
           newSignals.set(key - 1, value);
         } else {
           newSignals.set(key, value);
         }
-      }
+      });
       this.signals = newSignals;
 
       this.reindexPlayers();

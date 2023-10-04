@@ -37,7 +37,9 @@ app.get("/api/register/:idplayer", (req, res) => {
   console.log("register " + idPlayer);
   game.players.map((elt, i) => {
     if (i != idPlayer) {
-      game.toUpdatePlayers.push(i);
+      if (!game.toUpdatePlayers.includes(elt.n)) {
+        game.toUpdatePlayers.push(i);
+      }
     }
   });
   res.setHeader("Content-Type", "application/json");
@@ -59,7 +61,9 @@ app.get("/api/signal/:idplayer", (req, res) => {
     toUpdate.fires = true;
   }
   if (game.idPlayersToDecrease.includes(idPlayer)) {
-    toUpdate.idPlayer = idPlayer - 1;
+    if (idPlayer > 0) {
+      toUpdate.idPlayer = idPlayer - 1;
+    }
     console.log("idplayer " + idPlayer + " -> " + toUpdate.idPlayer);
     game.idPlayersToDecrease = game.idPlayersToDecrease.filter((elt) => elt !== idPlayer);
   }

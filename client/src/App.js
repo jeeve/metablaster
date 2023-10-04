@@ -35,6 +35,7 @@ export default function Game() {
   const [robotInertia, setRobotInertia] = useState(init.robotAgitation);
   const [disableUpdate, setDisableUpdate] = useState(false);
   const [displacement, setDisplacement] = useState("");
+  const [changePlayer, setChangePlayer] = useState(false);
 
   useEffect(() => {
     api.getNbPlayers(playerId).then((nbPlayers) => {
@@ -46,11 +47,13 @@ export default function Game() {
           setDisableUpdate(false);
           setDecorOK(true);
           setPlayerId(nbPlayers);
+          setChangePlayer(true);
           api.register(nbPlayers);
         });
       } else {
         setDecor(init.makeDecor(setDecorOK));
         setPlayerId(0);
+        setChangePlayer(true);
         api.register(0);
       }
       setYourName(nbPlayers + 1);
@@ -84,7 +87,7 @@ export default function Game() {
       newPlayers.push(newPlayer);
       setPlayers(newPlayers);
     }
-  }, [playerId]);
+  }, [changePlayer]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -120,7 +123,7 @@ export default function Game() {
     return () => {
       clearInterval(interval);
     };
-  }, [decorOK]);
+  }, [decorOK, playerId]);
 
   useEffect(() => {
     if (decorOK && !disableUpdate) {

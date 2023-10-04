@@ -42,6 +42,7 @@ app.get("/api/register/:idplayer", (req, res) => {
       }
     }
   });
+  game.reindexPlayers();
   res.setHeader("Content-Type", "application/json");
   res.end(JSON.stringify({ id: game.nbPlayers() }));
 });

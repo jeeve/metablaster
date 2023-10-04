@@ -98,6 +98,8 @@ app.post("/api/uploadgame/", (req, res) => {
       }
     }
   });
+  game.toUpdateDecor = game.toUpdateDecor.filter((elt) => elt != idPlayer);
+  game.toUpdatePlayers = game.toUpdatePlayers.filter((elt) => elt != idPlayer);
   res.end();
 });
 
@@ -112,6 +114,7 @@ app.post("/api/uploaddecor/", (req, res) => {
       }
     }
   });
+  game.toUpdateDecor = game.toUpdateDecor.filter((elt) => elt != idPlayer);
   res.end();
 });
 
@@ -127,6 +130,7 @@ app.post("/api/uploadplayers/", (req, res) => {
       }
     }
   });
+  game.toUpdatePlayers = game.toUpdatePlayers.filter((elt) => elt != idPlayer);
   console.log(game.toUpdatePlayers);
   res.end();
 });
@@ -143,6 +147,7 @@ app.post("/api/uploadfires/", (req, res) => {
       }
     }
   });
+  game.toUpdateFires = game.toUpdateFires.filter((elt) => elt != idPlayer);
   console.log(game.toUpdateFires);
   res.end();
 });

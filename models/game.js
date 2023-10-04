@@ -44,6 +44,8 @@ class Game {
         }
       }
 
+      this.signals.clear();
+/*
       this.signals.delete(idPlayer);
 
       const newSignals = new Map;
@@ -55,6 +57,7 @@ class Game {
         }
       });
       this.signals = newSignals;
+  */
 
       this.reindexPlayers();
       console.log("toUpdatePlayers : " + this.toUpdatePlayers)

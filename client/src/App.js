@@ -53,6 +53,7 @@ export default function Game() {
         setPlayerId(0);
         api.register(0);
       }
+      setYourName(nbPlayers + 1);
     });
   }, []);
 
@@ -63,7 +64,6 @@ export default function Game() {
       newPlayers[0].x = p.x;
       newPlayers[0].y = p.y;
       setPlayers(newPlayers);
-      setYourName(playerId + 1);
     }
   }, [decorOK]);
 
@@ -84,7 +84,6 @@ export default function Game() {
       newPlayers.push(newPlayer);
       setPlayers(newPlayers);
     }
-    setYourName(playerId + 1);
   }, [playerId]);
 
   useEffect(() => {

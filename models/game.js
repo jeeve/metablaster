@@ -35,10 +35,12 @@ class Game {
           }
         }
       });
+
       this.players = this.players.filter((elt, i) => elt.n !== idPlayer);
-      for (let i = idPlayer + 1; i < this.players.length; i++) {
-        if (!this.idPlayersToDecrease.includes(i)) {
-          this.idPlayersToDecrease.push(i);
+
+      for (let i = idPlayer; i < this.players.length; i++) {
+        if (!this.idPlayersToDecrease.includes(i+1)) {
+          this.idPlayersToDecrease.push(i+1);
         }
       }
 
@@ -48,14 +50,16 @@ class Game {
       for (let [key, value] of this.signals) {
         if (key > idPlayer) {
           newSignals.set(key - 1, value);
+        } else {
+          newSignals.set(key, value);
         }
       }
       this.signals = newSignals;
 
       this.reindexPlayers();
-      console.log(this.toUpdatePlayers)
-      console.log(this.idPlayersToDecrease)
-      console.log(this.signals)
+      console.log("toUpdatePlayers : " + this.toUpdatePlayers)
+      console.log("idPlayersToDecrease : " + this.idPlayersToDecrease)
+      console.log("signals : " + this.signals)
     }
 
     signalsAnalyse() {

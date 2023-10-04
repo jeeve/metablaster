@@ -18,8 +18,8 @@ class Game {
       this.toUpdatePlayers = [];
       this.toUpdateDecor = [];
       this.toUpdateFires = [];
-      this.idPlayersToDecreas = [];
       this.signals.clear();
+      this.idPlayersToDecreas = [];
     }
 
     nbPlayers() {
@@ -39,16 +39,9 @@ class Game {
       for (let i = idPlayer; i < this.players.length; i++) {
         this.idPlayersToDecrease.push(i);
       }
-      this.toUpdatePlayers = this.toUpdatePlayers.map((elt) => {
-        if (elt >= idPlayer) {
-          return elt - 1;
-        } else {
-          return elt;
-        }
-      });
       this.signals.delete(idPlayer);
       this.signals.forEach((value, key, map) => {
-        if (value >= idPlayer) {
+        if (value > idPlayer) {
           this.signals.set(key, value - 1);
         }
       }); 

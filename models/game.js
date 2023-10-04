@@ -29,23 +29,33 @@ class Game {
     deletePlayer(idPlayer) {
       console.log("delete player " + idPlayer);
       this.players.map((elt) => {
-        if (elt.n != idPlayer) {
+        if (elt.n !== idPlayer) {
           if (!this.toUpdatePlayers.includes(elt.n)) {
             this.toUpdatePlayers.push(elt.n);
           }
         }
       });
       this.players = this.players.filter((elt, i) => elt.n !== idPlayer);
-      for (let i = idPlayer; i < this.players.length; i++) {
-        this.idPlayersToDecrease.push(i);
-      }
-      this.signals.delete(idPlayer);
-      this.signals.forEach((value, key, map) => {
-        if (value > idPlayer) {
-          this.signals.set(key, value - 1);
+      for (let i = idPlayer + 1; i < this.players.length; i++) {
+        if (!this.idPlayersToDecrease.includes(i)) {
+          this.idPlayersToDecrease.push(i);
         }
-      }); 
+      }
+
+      this.signals.delete(idPlayer);
+
+      const newSignals = new Map;
+      for (let [key, value] of this.signals) {
+        if (key > idPlayer) {
+          newSignals.set(key - 1, value);
+        }
+      }
+      this.signals = newSignals;
+
       this.reindexPlayers();
+      console.log(this.toUpdatePlayers)
+      console.log(this.idPlayersToDecrease)
+      console.log(this.signals)
     }
 
     signalsAnalyse() {

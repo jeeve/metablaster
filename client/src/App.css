@@ -148,6 +148,10 @@ button {
   padding: 5px;
 }
 
+#initgame {
+  margin-bottom: 10px;
+}
+
 @media screen and (max-width: 767px) {
 
   #infos {

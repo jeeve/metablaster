@@ -19,18 +19,7 @@ export default function Game() {
   const [yourName, setYourName] = useState(1);
   const [decor, setDecor] = useState([]);
   const [decorOK, setDecorOK] = useState(false);
-  const [players, setPlayers] = useState([
-    {
-      x: 0,
-      y: 0,
-      score: 0,
-      dead: false,
-      image: "player.png",
-      n: 0,
-      name: 1,
-      bombs: init.nbBombsMax,
-    },
-  ]);
+  const [players, setPlayers] = useState([]);
   const [fires, setFires] = useState([]);
   const [robotInertia, setRobotInertia] = useState(init.robotAgitation);
   const [disableUpdate, setDisableUpdate] = useState(false);
@@ -49,7 +38,7 @@ export default function Game() {
             setDecorOK(true);
             setPlayerId(nbPlayers);
             setChangePlayer(true);
-          })
+          });
         });
       } else {
         setDecor(init.makeDecor(setDecorOK));
@@ -63,32 +52,23 @@ export default function Game() {
 
   useEffect(() => {
     if (decorOK && playerId === 0) {
-      const newPlayers = Object.assign([], players);
+      const newPlayers = [];
       const p = util.emptyRandomPosition(decor);
-      newPlayers[0].x = p.x;
-      newPlayers[0].y = p.y;
+      const newPlayer = init.makePlayer(0, p.x, p.y);
+      newPlayers.push(newPlayer);
       setPlayers(newPlayers);
     }
   }, [decorOK]);
 
   useEffect(() => {
-    if (playerId > 0) {
+    if (decorOK && playerId > 0) {
       const newPlayers = Object.assign([], players);
       const p = util.emptyRandomPosition(decor);
-      const newPlayer = {
-        x: p.x,
-        y: p.y,
-        score: 0,
-        dead: false,
-        image: "robot.png",
-        n: players.length,
-        name: playerId + 1,
-        bombs: init.nbBombsMax,
-      };
+      const newPlayer = init.makePlayer(players.length, p.x, p.y);
       newPlayers.push(newPlayer);
       setPlayers(newPlayers);
     }
-  }, [changePlayer]);
+  }, [decorOK, changePlayer]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -142,7 +122,7 @@ export default function Game() {
     if (decorOK && !disableUpdate) {
       api.uploadFires(playerId, fires);
     }
-  }, [fires]);  
+  }, [fires]);
 
   useEffect(() => {
     if (inputRef.current) {

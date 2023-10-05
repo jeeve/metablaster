@@ -59,3 +59,16 @@ export function makeDecor(decorOK) {
     decorOK(true);
     return sprites;
   }
+
+  export function makePlayer(n, x, y) {
+    return {
+      x: x,
+      y: y,
+      score: 0,
+      dead: false,
+      image: "player.png",
+      n: n,
+      name: n + 1,
+      bombs: nbBombsMax,
+    };
+  }

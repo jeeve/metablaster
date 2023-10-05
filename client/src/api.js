@@ -83,14 +83,14 @@ export function uploadFires(idPlayer, fires) {
   fetch("/api/uploadfires/", init);
 }
 
-export function register(idPlayer) {
+export async function register(idPlayer) {
   const init = {
     method: "GET",
     mode: "cors",
     credentials: "same-origin",
   };
 
-  fetch("/api/register/" + idPlayer, init);
+  await fetch("/api/register/" + idPlayer, init);
 }
 
 export function initGame() {

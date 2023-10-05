@@ -41,14 +41,15 @@ export default function Game() {
     api.getNbPlayers(playerId).then((nbPlayers) => {
       if (nbPlayers > 0) {
         api.downloadGame(playerId).then((game) => {
-          setDisableUpdate(true);
-          setDecor(game.decor);
-          setPlayers(game.players);
-          setDisableUpdate(false);
-          setDecorOK(true);
-          setPlayerId(nbPlayers);
-          setChangePlayer(true);
-          api.register(nbPlayers);
+          api.register(nbPlayers).then(() => {
+            setDisableUpdate(true);
+            setDecor(game.decor);
+            setPlayers(game.players);
+            setDisableUpdate(false);
+            setDecorOK(true);
+            setPlayerId(nbPlayers);
+            setChangePlayer(true);
+          })
         });
       } else {
         setDecor(init.makeDecor(setDecorOK));

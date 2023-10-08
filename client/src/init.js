@@ -10,7 +10,7 @@ export const nbBombsMax = 2;
 export const speed = 25;
 export const energyMax = 4;
 
-export function makeDecor(decorOK) {
+export function makeDecor() {
     const sprites = [];
     for (let i = 0; i < nj; i++) {
       for (let j = 0; j < ni; j++) {
@@ -56,7 +56,6 @@ export function makeDecor(decorOK) {
         }
       }
     }
-    decorOK(true);
     return sprites;
   }
 

@@ -41,7 +41,8 @@ export default function Game() {
           });
         });
       } else {
-        setDecor(init.makeDecor(setDecorOK));
+        setDecor(init.makeDecor());
+        setDecorOK(true);
         setPlayerId(0);
         setChangePlayer(true);
         api.register(0);

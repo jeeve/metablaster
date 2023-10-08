@@ -1,5 +1,7 @@
 class Game {
     constructor() {
+      this.nx = -1;
+      this.ny = -1;
       this.decor = [];
       this.players = [];
       this.fires = [];
@@ -11,6 +13,8 @@ class Game {
     }
 
     init() {
+      this.nx = -1;
+      this.ny = -1;
       this.decor = [];
       this.players = [];
       this.fires = [];
@@ -45,19 +49,6 @@ class Game {
       }
 
       this.signals.clear();
-/*
-      this.signals.delete(idPlayer);
-
-      const newSignals = new Map;
-      this.signals.forEach((value, key, map) => {
-        if (key > idPlayer) {
-          newSignals.set(key - 1, value);
-        } else {
-          newSignals.set(key, value);
-        }
-      });
-      this.signals = newSignals;
-  */
 
       this.reindexPlayers();
       console.log("toUpdatePlayers : " + this.toUpdatePlayers)

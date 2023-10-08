@@ -3,7 +3,7 @@ import Sprite from "./Sprite";
 import * as init from "../init";
 import * as util from "../util";
 
-export default function Fire({ decor, players, n, onBurn, onEnd }) {
+export default function Fire({ decor, n, onBurn, onEnd, ni }) {
   const [end, setEnd] = useState(false);
   const [energy, setEnergy] = useState(init.energyMax);
   const [burned, setBurned] = useState([]);
@@ -102,12 +102,13 @@ export default function Fire({ decor, players, n, onBurn, onEnd }) {
         } else {
           k = util.getIndex(
             Math.floor(newSprites[newSprites.length - 1].x / 32),
-            Math.floor(newSprites[newSprites.length - 1].y / 32)
+            Math.floor(newSprites[newSprites.length - 1].y / 32),
+            ni
           );
         }
-        const i = util.getI(k) + di;
-        const j = util.getJ(k) + dj;
-        const newK = util.getIndex(i, j);
+        const i = util.getI(k, ni) + di;
+        const j = util.getJ(k, ni) + dj;
+        const newK = util.getIndex(i, j, ni);
         if (decor[newK].image === "" && nbBurned() < 1) {
           newSprites.push({
             x: i * 32,
@@ -175,25 +176,26 @@ export default function Fire({ decor, players, n, onBurn, onEnd }) {
     <div>
       {energy > init.energyMax / 2 + 1 ? (
         <Sprite
-          x={util.getI(n) * 32}
-          y={util.getJ(n) * 32}
+          x={util.getI(n, ni) * 32}
+          y={util.getJ(n, ni) * 32}
           image="fire-c.png"
+          ni={ni}
         />
       ) : (
         <></>
       )}
       <>
         {spritesL.map((sprite, n) => (
-          <Sprite key={n} x={sprite.x} y={sprite.y} image={sprite.image} />
+          <Sprite key={n} x={sprite.x} y={sprite.y} image={sprite.image} ni={ni} />
         ))}
         {spritesR.map((sprite, n) => (
-          <Sprite key={n} x={sprite.x} y={sprite.y} image={sprite.image} />
+          <Sprite key={n} x={sprite.x} y={sprite.y} image={sprite.image} ni={ni} />
         ))}
         {spritesU.map((sprite, n) => (
-          <Sprite key={n} x={sprite.x} y={sprite.y} image={sprite.image} />
+          <Sprite key={n} x={sprite.x} y={sprite.y} image={sprite.image} ni={ni} />
         ))}
         {spritesD.map((sprite, n) => (
-          <Sprite key={n} x={sprite.x} y={sprite.y} image={sprite.image} />
+          <Sprite key={n} x={sprite.x} y={sprite.y} image={sprite.image} ni={ni} />
         ))}
       </>
     </div>

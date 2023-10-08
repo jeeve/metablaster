@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
-import * as init from "../init";
 
-export default function Bomb({ x, y, n, onExplode, explode, soundOn }) {
+export default function Bomb({ x, y, n, onExplode, explode, soundOn, ni }) {
   const [image, setImage] = useState("bomb1.png");
   const [count, setCount] = useState(5);
 
-  const deltax = Math.floor(window.innerWidth / 2 - (init.ni * 32) / 2);
+  const deltax = Math.floor(window.innerWidth / 2 - (ni * 32) / 2);
   const style = {
     left: deltax + x,
     top: y,

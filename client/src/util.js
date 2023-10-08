@@ -1,28 +1,26 @@
-import * as init from "./init";
-
-export function getIndex(i, j) {
-  return j * init.ni + i;
+export function getIndex(i, j, ni) {
+  return j * ni + i;
 }
 
-export function getI(n) {
-  return n % init.ni;
+export function getI(n, ni) {
+  return n % ni;
 }
 
-export function getJ(n) {
-  return Math.floor(n / init.ni);
+export function getJ(n, ni) {
+  return Math.floor(n / ni);
 }
 
-export function blockAt(decor, i, j) {
-  const n = getIndex(i, j);
+export function blockAt(decor, i, j, ni) {
+  const n = getIndex(i, j, ni);
   return !(decor[n].image === "");
 }
 
-export function playerAt(n, players) {
+export function playerAt(n, players, ni) {
   let ok = false;
   players.map((player) => {
     if (
-      Math.abs(player.x - getI(n) * 32) < 16 &&
-      Math.abs(player.y - getJ(n) * 32) < 16
+      Math.abs(player.x - getI(n, ni) * 32) < 16 &&
+      Math.abs(player.y - getJ(n, ni) * 32) < 16
     ) {
       ok = true;
     }
@@ -30,13 +28,13 @@ export function playerAt(n, players) {
   return ok;
 }
 
-export function emptyRandomPosition(decor) {
+export function emptyRandomPosition(decor, ni, nj) {
   const maxNumberTest = 1000;
   let numberTest = 0;
   while (numberTest < maxNumberTest) {
-    const i = Math.floor(Math.random() * init.ni);
-    const j = Math.floor(Math.random() * init.nj);
-    if (!blockAt(decor, i, j)) {
+    const i = Math.floor(Math.random() * ni);
+    const j = Math.floor(Math.random() * nj);
+    if (!blockAt(decor, i, j, ni)) {
       return { x: i * 32, y: j * 32 };
     }
     numberTest++;
@@ -52,12 +50,12 @@ export function spriteRight(n) {
   return n + 1;
 }
 
-export function spriteUp(n) {
-  return n - init.ni;
+export function spriteUp(n, ni) {
+  return n - ni;
 }
 
-export function spriteDown(n) {
-  return n + init.ni;
+export function spriteDown(n, ni) {
+  return n + ni;
 }
 
 function getObjectsNearXY(decor, players, player, x, y) {

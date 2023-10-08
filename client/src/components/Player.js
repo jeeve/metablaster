@@ -5,6 +5,7 @@ export default function Player({
   x,
   y,
   n,
+  ni,
   image,
   name,
   displayName,
@@ -15,7 +16,7 @@ export default function Player({
   const [visibility, setVisibilty] = useState(true);
   const [count, setCount] = useState(deadTime);
 
-  const deltax = Math.floor(window.innerWidth / 2 - (init.ni * 32) / 2);
+  const deltax = Math.floor(window.innerWidth / 2 - (ni * 32) / 2);
   const style = {
     left: deltax + x,
     top: y,

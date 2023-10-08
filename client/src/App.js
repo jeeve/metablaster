@@ -8,11 +8,12 @@ import Controls from "./components/Controls";
 import * as init from "./init";
 import * as util from "./util";
 import * as engine from "./engine";
-import * as robot from "./robot";
 import * as api from "./api";
 
 export default function Game() {
   const inputRef = useRef(null);
+  const [nx, setNx] = useState(-1);
+  const [ny, setNy] = useState(-1);
   const [playerId, setPlayerId] = useState(-1);
   const [soundOn, setSoundOn] = useState(false);
   const [displayName, setDisplayName] = useState(true);
@@ -32,6 +33,8 @@ export default function Game() {
         api.downloadGame(playerId).then((game) => {
           api.register(nbPlayers).then(() => {
             setDisableUpdate(true);
+            setNx(game.nx);
+            setNy(game.ny);
             setDecor(game.decor);
             setPlayers(game.players);
             setDisableUpdate(false);
@@ -41,7 +44,12 @@ export default function Game() {
           });
         });
       } else {
-        setDecor(init.makeDecor());
+        const nx0 = Math.floor(window.innerWidth / 32); 
+        const ni0 = nx0 <= 20 ? nx0 : 20;
+        const nj0 = 15;
+        setNx(ni0);
+        setNy(nj0);
+        setDecor(init.makeDecor(ni0, nj0));
         setDecorOK(true);
         setPlayerId(0);
         setChangePlayer(true);
@@ -54,7 +62,7 @@ export default function Game() {
   useEffect(() => {
     if (decorOK && playerId === 0) {
       const newPlayers = [];
-      const p = util.emptyRandomPosition(decor);
+      const p = util.emptyRandomPosition(decor, nx, ny);
       const newPlayer = init.makePlayer(0, p.x, p.y);
       newPlayers.push(newPlayer);
       setPlayers(newPlayers);
@@ -64,10 +72,14 @@ export default function Game() {
   useEffect(() => {
     if (decorOK && playerId > 0) {
       const newPlayers = Object.assign([], players);
-      const p = util.emptyRandomPosition(decor);
+      console.log("decor")
+      console.log(decor)
+      const p = util.emptyRandomPosition(decor, nx, ny);
+      console.log(p)
       const newPlayer = init.makePlayer(players.length, p.x, p.y);
       newPlayers.push(newPlayer);
       setPlayers(newPlayers);
+      console.log(newPlayers)
     }
   }, [decorOK, changePlayer]);
 
@@ -109,7 +121,7 @@ export default function Game() {
 
   useEffect(() => {
     if (decorOK && !disableUpdate) {
-      api.uploadDecor(playerId, decor);
+      api.uploadDecor(playerId, nx, ny, decor);
     }
   }, [decor]);
 
@@ -162,10 +174,10 @@ export default function Game() {
     const nextDecor = Object.assign([], decor);
     const i = Math.round(player.x / 32);
     const j = Math.round(player.y / 32);
-    const n = util.getIndex(i, j);
+    const n = util.getIndex(i, j, nx);
     if (decor[n].image === "") {
-      const x = util.getI(n) * 32;
-      const y = util.getJ(n) * 32;
+      const x = util.getI(n, nx) * 32;
+      const y = util.getJ(n, nx) * 32;
       if (!util.isOkForXY(decor, players, player, x, y)) {
         return; // on ne peut pas poser à cet endroit
       }
@@ -199,8 +211,8 @@ export default function Game() {
     const newPlayers = Object.assign([], players);
     newPlayers.map((player) => {
       if (
-        Math.abs(player.x - util.getI(n) * 32) < 16 &&
-        Math.abs(player.y - util.getJ(n) * 32) < 16
+        Math.abs(player.x - util.getI(n, nx) * 32) < 16 &&
+        Math.abs(player.y - util.getJ(n, nx) * 32) < 16
       ) {
         player.dead = true;
         player.score--;
@@ -221,8 +233,8 @@ export default function Game() {
     const newPlayers = Object.assign([], players);
     newPlayers.map((player) => {
       if (
-        Math.abs(player.x - util.getI(n) * 32) < 16 &&
-        Math.abs(player.y - util.getJ(n) * 32) < 16
+        Math.abs(player.x - util.getI(n, nx) * 32) < 16 &&
+        Math.abs(player.y - util.getJ(n, nx) * 32) < 16
       ) {
         if (!player.dead) {
           player.dead = true;
@@ -297,66 +309,6 @@ export default function Game() {
     }
   }
 
-  /*
-  useEffect(() => {
-    const interval = setInterval(() => {
-      robot.moveRobot(
-        decor,
-        robotInertia,
-        setRobotInertia,
-        players,
-        theRobot,
-        dropBomb,
-        fires
-      );
-
-      switch (theRobot().displacement) {
-        case "left": {
-          engine.tryToGoLeft(decor, players, theRobot()).then((response) => {
-            const newPlayers = Object.assign([], players);
-            newPlayers[theRobot().n].x = response.x;
-            newPlayers[theRobot().n].y = response.y;
-            setPlayers(newPlayers);
-          });
-          break;
-        }
-        case "right": {
-          engine.tryToGoRight(decor, players, theRobot()).then((response) => {
-            const newPlayers = Object.assign([], players);
-            newPlayers[theRobot().n].x = response.x;
-            newPlayers[theRobot().n].y = response.y;
-            setPlayers(newPlayers);
-          });
-          break;
-        }
-        case "down": {
-          engine.tryToGoDown(decor, players, theRobot()).then((response) => {
-            const newPlayers = Object.assign([], players);
-            newPlayers[theRobot().n].x = response.x;
-            newPlayers[theRobot().n].y = response.y;
-            setPlayers(newPlayers);
-          });
-          break;
-        }
-        case "up": {
-          engine.tryToGoUp(decor, players, theRobot()).then((response) => {
-            const newPlayers = Object.assign([], players);
-            newPlayers[theRobot().n].x = response.x;
-            newPlayers[theRobot().n].y = response.y;
-            setPlayers(newPlayers);
-          });
-          break;
-        }
-        default: {
-          break;
-        }
-      }
-    }, init.speed);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [decor, players, robotInertia, fires]);
-*/
   useEffect(() => {
     const interval = setInterval(() => {
       switch (displacement) {
@@ -461,6 +413,7 @@ export default function Game() {
             key={n}
             x={sprite.x}
             y={sprite.y}
+            ni={nx}
             image={
               sprite.image === "" || sprite.image.includes("bomb")
                 ? "grass.png"
@@ -474,6 +427,7 @@ export default function Game() {
             x={player.x}
             y={player.y}
             n={n}
+            ni={nx}
             name={player.name}
             displayName={displayName}
             dead={player.dead}
@@ -491,6 +445,7 @@ export default function Game() {
               x={sprite.x}
               y={sprite.y}
               n={sprite.n}
+              ni={nx}
               onExplode={handleExplode}
               explode={sprite.explode}
               soundOn={soundOn}
@@ -500,10 +455,10 @@ export default function Game() {
           <Fire
             key={n}
             decor={decor}
-            players={players}
             n={sprite}
             onBurn={HandleBurn}
             onEnd={handleFireEnd}
+            ni={nx}
           />
         ))}
       </div>

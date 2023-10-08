@@ -14,7 +14,7 @@ export async function getNbPlayers() {
   return nbPlayers;
 }
 
-export function uploadGame(idPlayer, decor, players) {
+export function uploadGame(idPlayer, nx, ny, decor, players) {
   const init = {
     method: "POST",
     headers: {
@@ -22,6 +22,8 @@ export function uploadGame(idPlayer, decor, players) {
     },
     body: JSON.stringify({
       idPlayer: idPlayer,
+      nx: nx,
+      ny: ny,
       decor: decor,
       players: players
     }),
@@ -32,7 +34,7 @@ export function uploadGame(idPlayer, decor, players) {
   fetch("/api/uploadgame/", init);
 }
 
-export function uploadDecor(idPlayer, decor) {
+export function uploadDecor(idPlayer, nx, ny, decor) {
   const init = {
     method: "POST",
     headers: {
@@ -40,6 +42,8 @@ export function uploadDecor(idPlayer, decor) {
     },
     body: JSON.stringify({
       idPlayer: idPlayer,
+      nx: nx,
+      ny: ny,
       decor: decor,
     }),
     mode: "cors",
@@ -124,7 +128,7 @@ export async function downloadGame(idPlayer) {
 
 export async function downloadDecor(idPlayer) {
 
-  let decor = {};
+  let rep = {};
 
   const init = {
     method: "GET",
@@ -136,9 +140,9 @@ export async function downloadDecor(idPlayer) {
   };
 
   await fetch("/api/downloaddecor/"+ idPlayer, init).then(response => response.json())
-  .then(response => decor = response);
+  .then(response => rep = response);
 
-  return decor;
+  return { nx: rep.nx, ny: rep.ny, decor: rep.decor };
 }
 
 export async function downloadPlayers(idPlayer) {

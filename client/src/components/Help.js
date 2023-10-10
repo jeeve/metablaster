@@ -7,6 +7,6 @@ export default function Help({ ni }) {
       width: ni * 32
     };
   
-    return ni > 11 ? <div className="help" style={style} >use the keyboard arrows to move your player and the space bar to drop a bomb</div>
+    return ni > 11 ? <div className="help" style={style} >use keyboard arrows to move your player and spacebar to drop a bomb</div>
         : <></>;
   }

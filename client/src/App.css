@@ -75,6 +75,13 @@ button {
   font-size: 100%;
 }
 
+.help {
+  color: white;
+  position: absolute;
+  user-select: none;
+  text-align: right;
+}
+
 .name {
   position: absolute;
   width: 22px;

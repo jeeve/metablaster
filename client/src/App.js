@@ -49,7 +49,9 @@ export default function Game() {
         const nj0 = 15;
         setNx(ni0);
         setNy(nj0);
-        setDecor(init.makeDecor(ni0, nj0));
+        const decor0 = init.makeDecor(ni0, nj0)
+        setDecor(decor0);
+        api.uploadDecor(0, ni0, nj0, decor0);
         setDecorOK(true);
         setPlayerId(0);
         setChangePlayer(true);
@@ -72,8 +74,6 @@ export default function Game() {
   useEffect(() => {
     if (decorOK && playerId > 0) {
       const newPlayers = Object.assign([], players);
-      console.log("decor")
-      console.log(decor)
       const p = util.emptyRandomPosition(decor, nx, ny);
       console.log(p)
       const newPlayer = init.makePlayer(players.length, p.x, p.y);
@@ -93,6 +93,13 @@ export default function Game() {
               setDecor(rep.decor);
             });
           }
+          if (r.toUpdate.sprite) {
+            api.downloadSprite(playerId).then((rep) => {
+              const newDecor = Object.assign([], decor);
+              newDecor[rep.sprite.n] = rep.sprite;
+              setDecor(newDecor);
+            });
+          }        
           if (r.toUpdate.players) {
             api.downloadPlayers(playerId).then((rep) => {
               setDisableUpdate(true);
@@ -117,14 +124,14 @@ export default function Game() {
     return () => {
       clearInterval(interval);
     };
-  }, [decorOK, playerId]);
-
+  }, [decorOK, playerId, decor]);
+/*
   useEffect(() => {
     if (decorOK && !disableUpdate) {
       api.uploadDecor(playerId, nx, ny, decor);
     }
   }, [decor]);
-
+*/
   useEffect(() => {
     if (decorOK && !disableUpdate) {
       api.uploadPlayers(playerId, players);
@@ -171,7 +178,6 @@ export default function Game() {
 */
   function dropBomb(player) {
     if (player.dead || player.bombs === 0) return;
-    const nextDecor = Object.assign([], decor);
     const i = Math.round(player.x / 32);
     const j = Math.round(player.y / 32);
     const n = util.getIndex(i, j, nx);
@@ -181,14 +187,16 @@ export default function Game() {
       if (!util.isOkForXY(decor, players, player, x, y)) {
         return; // on ne peut pas poser à cet endroit
       }
-      nextDecor[n] = {
+      const newDecor = Object.assign([], decor);
+      newDecor[n] = {
         x: x,
         y: y,
         image: "bomb1.png",
         n: n,
         owner: player.n,
       };
-      setDecor(nextDecor);
+      setDecor(newDecor);
+      api.uploadSprite(playerId, newDecor[n]);
       const newPlayers = Object.assign([], players);
       newPlayers[player.n].x = x;
       newPlayers[player.n].y = y;
@@ -224,6 +232,7 @@ export default function Game() {
     const newDecor = Object.assign([], decor);
     newDecor[n].image = ""; // remove bomb
     setDecor(newDecor);
+    api.uploadSprite(playerId, newDecor[n]);
     const newFires = [...fires];
     newFires.push(n);
     setFires(newFires);
@@ -248,6 +257,7 @@ export default function Game() {
     if (decor[n].image === "brick.png") {
       newDecor[n].image = "";
       setDecor(newDecor);
+      api.uploadSprite(playerId, newDecor[n]);
     } else if (decor[n].image.includes("bomb")) {
       newDecor[n].explode = true; // chain reaction
       setDecor(newDecor);

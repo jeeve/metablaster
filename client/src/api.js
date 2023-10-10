@@ -53,6 +53,23 @@ export function uploadDecor(idPlayer, nx, ny, decor) {
   fetch("/api/uploaddecor/", init);
 }
 
+export function uploadSprite(idPlayer, sprite) {
+  const init = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      idPlayer: idPlayer,
+      sprite: sprite,
+    }),
+    mode: "cors",
+    credentials: "same-origin",
+  };
+
+  fetch("/api/uploadsprite/", init);
+}
+
 export function uploadPlayers(idPlayer, players) {
   const init = {
     method: "POST",
@@ -143,6 +160,25 @@ export async function downloadDecor(idPlayer) {
   .then(response => rep = response);
 
   return { nx: rep.nx, ny: rep.ny, decor: rep.decor };
+}
+
+export async function downloadSprite(idPlayer) {
+
+  let rep = {};
+
+  const init = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    mode: "cors",
+    credentials: "same-origin",
+  };
+
+  await fetch("/api/downloadsprite/"+ idPlayer, init).then(response => response.json())
+  .then(response => rep = response);
+
+  return { sprite: rep.sprite };
 }
 
 export async function downloadPlayers(idPlayer) {

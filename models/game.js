@@ -3,10 +3,12 @@ class Game {
       this.nx = -1;
       this.ny = -1;
       this.decor = [];
+      this.sprite = {};
       this.players = [];
       this.fires = [];
       this.toUpdateDecor = [];
       this.toUpdatePlayers = [];
+      this.toUpdateSprite = [];
       this.toUpdateFires = [];
       this.signals = new Map;
       this.idPlayersToDecrease = [];
@@ -16,9 +18,11 @@ class Game {
       this.nx = -1;
       this.ny = -1;
       this.decor = [];
+      this.sprite = {};
       this.players = [];
       this.fires = [];
       this.toUpdateDecor = [];
+      this.toUpdateSprite = [];
       this.toUpdatePlayers = [];
       this.toUpdateDecor = [];
       this.toUpdateFires = [];

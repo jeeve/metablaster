@@ -51,9 +51,12 @@ app.get("/api/signal/:idplayer", (req, res) => {
   const idPlayer = Number(req.params.idplayer);
   //console.log("signal " + idPlayer);
   game.signals.set(idPlayer, Date.now());
-  const toUpdate = { decor: false, players: false, fires: false, idPlayer: -1 };
+  const toUpdate = { decor: false, sprite: false, players: false, fires: false, idPlayer: -1 };
   if (game.toUpdateDecor.includes(idPlayer)) {
     toUpdate.decor = true;
+  }
+  if (game.toUpdateSprite.includes(idPlayer)) {
+    toUpdate.sprite = true;
   }
   if (game.toUpdatePlayers.includes(idPlayer)) {
     toUpdate.players = true;
@@ -126,6 +129,22 @@ app.post("/api/uploaddecor/", (req, res) => {
   res.end();
 });
 
+app.post("/api/uploadsprite/", (req, res) => {
+  const idPlayer = Number(req.body.idPlayer);
+  console.log("upload sprite " + idPlayer);
+  const sprite = req.body.sprite;
+  game.sprite = sprite;
+  game.players.map((elt) => {
+    if (elt.n != idPlayer) {
+      if (!game.toUpdateSprite.includes(elt.n)) {
+        game.toUpdateSprite.push(elt.n);
+      }
+    }
+  });
+  game.toUpdateSprite = game.toUpdateSprite.filter((elt) => elt != idPlayer);
+  res.end();
+});
+
 app.post("/api/uploadplayers/", (req, res) => {
   const idPlayer = Number(req.body.idPlayer);
   console.log("upload players " + idPlayer);
@@ -175,6 +194,14 @@ app.get("/api/downloaddecor/:idplayer", (req, res) => {
   game.toUpdateDecor = game.toUpdateDecor.filter((elt) => elt != idPlayer);
   res.setHeader("Content-Type", "application/json");
   res.end(JSON.stringify({ nx: game.nx, ny: game.ny,decor: game.decor }));
+});
+
+app.get("/api/downloadsprite/:idplayer", (req, res) => {
+  const idPlayer = Number(req.params.idplayer);
+  console.log("download sprite " + idPlayer);
+  game.toUpdateSprite = game.toUpdateSprite.filter((elt) => elt != idPlayer);
+  res.setHeader("Content-Type", "application/json");
+  res.end(JSON.stringify({ sprite: game.sprite }));
 });
 
 app.get("/api/downloadplayers/:idplayer", (req, res) => {

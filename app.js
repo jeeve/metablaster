@@ -51,12 +51,14 @@ app.get("/api/signal/:idplayer", (req, res) => {
   const idPlayer = Number(req.params.idplayer);
   //console.log("signal " + idPlayer);
   game.signals.set(idPlayer, Date.now());
-  const toUpdate = { decor: false, sprite: false, players: false, fires: false, idPlayer: -1 };
+  const toUpdate = { decor: false, sprite: false, players: false, fires: false, idPlayer: -1, newSprite: {} };
   if (game.toUpdateDecor.includes(idPlayer)) {
     toUpdate.decor = true;
   }
   if (game.toUpdateSprite.includes(idPlayer)) {
     toUpdate.sprite = true;
+    toUpdate.newSprite = game.sprite;
+    game.toUpdateSprite = game.toUpdateSprite.filter((elt) => elt !== idPlayer);
   }
   if (game.toUpdatePlayers.includes(idPlayer)) {
     toUpdate.players = true;
@@ -107,8 +109,8 @@ app.post("/api/uploadgame/", (req, res) => {
       }
     }
   });
-  game.toUpdateDecor = game.toUpdateDecor.filter((elt) => elt != idPlayer);
-  game.toUpdatePlayers = game.toUpdatePlayers.filter((elt) => elt != idPlayer);
+  game.toUpdateDecor = game.toUpdateDecor.filter((elt) => elt !== idPlayer);
+  game.toUpdatePlayers = game.toUpdatePlayers.filter((elt) => elt !== idPlayer);
   res.end();
 });
 
@@ -125,7 +127,7 @@ app.post("/api/uploaddecor/", (req, res) => {
       }
     }
   });
-  game.toUpdateDecor = game.toUpdateDecor.filter((elt) => elt != idPlayer);
+  game.toUpdateDecor = game.toUpdateDecor.filter((elt) => elt !== idPlayer);
   res.end();
 });
 
@@ -141,7 +143,7 @@ app.post("/api/uploadsprite/", (req, res) => {
       }
     }
   });
-  game.toUpdateSprite = game.toUpdateSprite.filter((elt) => elt != idPlayer);
+  game.toUpdateSprite = game.toUpdateSprite.filter((elt) => elt !== idPlayer);
   res.end();
 });
 
@@ -157,7 +159,7 @@ app.post("/api/uploadplayers/", (req, res) => {
       }
     }
   });
-  game.toUpdatePlayers = game.toUpdatePlayers.filter((elt) => elt != idPlayer);
+  game.toUpdatePlayers = game.toUpdatePlayers.filter((elt) => elt !== idPlayer);
   console.log(game.toUpdatePlayers);
   res.end();
 });
@@ -174,7 +176,7 @@ app.post("/api/uploadfires/", (req, res) => {
       }
     }
   });
-  game.toUpdateFires = game.toUpdateFires.filter((elt) => elt != idPlayer);
+  game.toUpdateFires = game.toUpdateFires.filter((elt) => elt !== idPlayer);
   console.log(game.toUpdateFires);
   res.end();
 });
@@ -182,8 +184,8 @@ app.post("/api/uploadfires/", (req, res) => {
 app.get("/api/downloadgame/:idplayer", (req, res) => {
   const idPlayer = Number(req.params.idplayer);
   console.log("download game " + idPlayer);
-  game.toUpdateDecor = game.toUpdateDecor.filter((elt) => elt != idPlayer);
-  game.toUpdatePlayers = game.toUpdatePlayers.filter((elt) => elt != idPlayer);
+  game.toUpdateDecor = game.toUpdateDecor.filter((elt) => elt !== idPlayer);
+  game.toUpdatePlayers = game.toUpdatePlayers.filter((elt) => elt !== idPlayer);
   res.setHeader("Content-Type", "application/json");
   res.end(JSON.stringify({ nx: game.nx, ny: game.ny, decor: game.decor, players: game.players }));
 });
@@ -191,7 +193,7 @@ app.get("/api/downloadgame/:idplayer", (req, res) => {
 app.get("/api/downloaddecor/:idplayer", (req, res) => {
   const idPlayer = Number(req.params.idplayer);
   console.log("download decor " + idPlayer);
-  game.toUpdateDecor = game.toUpdateDecor.filter((elt) => elt != idPlayer);
+  game.toUpdateDecor = game.toUpdateDecor.filter((elt) => elt !== idPlayer);
   res.setHeader("Content-Type", "application/json");
   res.end(JSON.stringify({ nx: game.nx, ny: game.ny,decor: game.decor }));
 });
@@ -199,7 +201,7 @@ app.get("/api/downloaddecor/:idplayer", (req, res) => {
 app.get("/api/downloadsprite/:idplayer", (req, res) => {
   const idPlayer = Number(req.params.idplayer);
   console.log("download sprite " + idPlayer);
-  game.toUpdateSprite = game.toUpdateSprite.filter((elt) => elt != idPlayer);
+  game.toUpdateSprite = game.toUpdateSprite.filter((elt) => elt !== idPlayer);
   res.setHeader("Content-Type", "application/json");
   res.end(JSON.stringify({ sprite: game.sprite }));
 });
@@ -207,7 +209,7 @@ app.get("/api/downloadsprite/:idplayer", (req, res) => {
 app.get("/api/downloadplayers/:idplayer", (req, res) => {
   const idPlayer = Number(req.params.idplayer);
   console.log("download players " + idPlayer);
-  game.toUpdatePlayers = game.toUpdatePlayers.filter((elt) => elt != idPlayer);
+  game.toUpdatePlayers = game.toUpdatePlayers.filter((elt) => elt !== idPlayer);
   console.log(game.toUpdatePlayers);
   res.setHeader("Content-Type", "application/json");
   res.end(JSON.stringify({ players: game.players }));
@@ -216,7 +218,7 @@ app.get("/api/downloadplayers/:idplayer", (req, res) => {
 app.get("/api/downloadfires/:idplayer", (req, res) => {
   const idPlayer = Number(req.params.idplayer);
   console.log("download fires " + idPlayer);
-  game.toUpdateFires = game.toUpdateFires.filter((elt) => elt != idPlayer);
+  game.toUpdateFires = game.toUpdateFires.filter((elt) => elt !== idPlayer);
   console.log(game.toUpdateFires);
   res.setHeader("Content-Type", "application/json");
   res.end(JSON.stringify({ fires: game.fires }));

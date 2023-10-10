@@ -94,11 +94,9 @@ export default function Game() {
             });
           }
           if (r.toUpdate.sprite) {
-            api.downloadSprite(playerId).then((rep) => {
-              const newDecor = Object.assign([], decor);
-              newDecor[rep.sprite.n] = rep.sprite;
-              setDecor(newDecor);
-            });
+            const newDecor = Object.assign([], decor);
+            newDecor[r.toUpdate.newSprite.n] = r.toUpdate.newSprite;
+            setDecor(newDecor);
           }        
           if (r.toUpdate.players) {
             api.downloadPlayers(playerId).then((rep) => {

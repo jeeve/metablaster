@@ -140,7 +140,7 @@ button {
   bottom: -5px;
   left: 50%;
   transform: translate(-50%, 0);
-  margin-bottom: 50px;
+  margin-bottom: 60px;
 }
 
 #controles .controle {
@@ -182,7 +182,7 @@ button {
   }
 
   #controles {
-    margin-bottom: 10px;
+    margin-bottom: 40px;
   }
   
 }

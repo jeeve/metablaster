@@ -31,6 +31,7 @@ export default function Controls({ onDisplacement, onBomb }) {
           onClick={() => {
             onBomb();
           }}
+          title="spacebar"
         >
           bomb
         </button>

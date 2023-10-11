@@ -23,7 +23,6 @@ export default function Game() {
   const [decorOK, setDecorOK] = useState(false);
   const [players, setPlayers] = useState([]);
   const [fires, setFires] = useState([]);
-  const [robotInertia, setRobotInertia] = useState(init.robotAgitation);
   const [disableUpdate, setDisableUpdate] = useState(false);
   const [displacement, setDisplacement] = useState("");
   const [changePlayer, setChangePlayer] = useState(false);
@@ -163,9 +162,9 @@ export default function Game() {
     if (decorOK) {
       const newPlayers = Object.assign([], players);
       newPlayers[playerId].name = e.target.value;
+      api.uploadPlayer(playerId, newPlayers[playerId]);
       setPlayers(players);
       setYourName(e.target.value);
-      api.uploadPlayers(playerId, players);
     }
   };
 
@@ -204,6 +203,7 @@ export default function Game() {
       if (player.bombs > 0) {
         newPlayers[player.n].bombs--;
       }
+      api.uploadPlayer(playerId, newPlayers[player.n]);
       setPlayers(newPlayers);
     }
   }
@@ -225,6 +225,7 @@ export default function Game() {
       ) {
         player.dead = true;
         player.score--;
+        api.uploadPlayer(playerId, player);
       }
     });
     newPlayers[decor[n].owner].bombs++;
@@ -249,6 +250,7 @@ export default function Game() {
         if (!player.dead) {
           player.dead = true;
           player.score--;
+          api.uploadPlayer(playerId, player);
         }
       }
     });
@@ -275,6 +277,7 @@ export default function Game() {
   const handleReborn = (n) => {
     const newPlayers = Object.assign([], players);
     newPlayers[n].dead = false;
+    api.uploadPlayer(playerId, newPlayers[n]);
     setPlayers(newPlayers);
   };
 

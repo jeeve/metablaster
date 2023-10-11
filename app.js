@@ -60,10 +60,10 @@ app.get("/api/signal/:idplayer", (req, res) => {
     toUpdate.newSprite = game.sprite;
     game.toUpdateSprite = game.toUpdateSprite.filter((elt) => elt !== idPlayer);
   }
-  if (game.toUpdatePlayer.includes(idPlayer)) {
+  if (game.toUpdatePlayer.has(idPlayer)) {
     toUpdate.player = true;
-    toUpdate.newPlayer = game.players[idPlayer];
-    game.toUpdatePlayer = game.toUpdatePlayer.filter((elt) => elt !== idPlayer);
+    toUpdate.newPlayer = game.players[game.toUpdatePlayer.get(idPlayer)];
+    game.toUpdatePlayer.delete(idPlayer);
   }
   if (game.toUpdatePlayers.includes(idPlayer)) {
     toUpdate.players = true;
@@ -159,12 +159,10 @@ app.post("/api/uploadplayer/", (req, res) => {
   game.players[player.n] = player;
   game.players.map((elt) => {
     if (elt.n != idPlayer) {
-      if (!game.toUpdatePlayer.includes(elt.n)) {
-        game.toUpdatePlayer.push(elt.n);
-      }
+      game.toUpdatePlayer.set(elt.n, player.n);
     }
   });
-  game.toUpdatePlayer = game.toUpdatePlayer.filter((elt) => elt !== idPlayer);
+  game.toUpdatePlayer.delete(idPlayer);
   res.end();
 });
 

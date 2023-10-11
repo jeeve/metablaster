@@ -9,6 +9,7 @@ class Game {
       this.toUpdateDecor = [];
       this.toUpdatePlayers = [];
       this.toUpdateSprite = [];
+      this.toUpdatePlayer = [];
       this.toUpdateFires = [];
       this.signals = new Map;
       this.idPlayersToDecrease = [];
@@ -23,6 +24,7 @@ class Game {
       this.fires = [];
       this.toUpdateDecor = [];
       this.toUpdateSprite = [];
+      this.toUpdatePlayer = [];
       this.toUpdatePlayers = [];
       this.toUpdateDecor = [];
       this.toUpdateFires = [];

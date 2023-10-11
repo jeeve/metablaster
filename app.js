@@ -51,7 +51,7 @@ app.get("/api/signal/:idplayer", (req, res) => {
   const idPlayer = Number(req.params.idplayer);
   //console.log("signal " + idPlayer);
   game.signals.set(idPlayer, Date.now());
-  const toUpdate = { decor: false, sprite: false, players: false, fires: false, idPlayer: -1, newSprite: {} };
+  const toUpdate = { decor: false, sprite: false, player: false, players: false, fires: false, idPlayer: -1, newSprite: {}, newPlayer: {} };
   if (game.toUpdateDecor.includes(idPlayer)) {
     toUpdate.decor = true;
   }
@@ -59,6 +59,11 @@ app.get("/api/signal/:idplayer", (req, res) => {
     toUpdate.sprite = true;
     toUpdate.newSprite = game.sprite;
     game.toUpdateSprite = game.toUpdateSprite.filter((elt) => elt !== idPlayer);
+  }
+  if (game.toUpdatePlayer.includes(idPlayer)) {
+    toUpdate.player = true;
+    toUpdate.newPlayer = game.players[idPlayer];
+    game.toUpdatePlayer = game.toUpdatePlayer.filter((elt) => elt !== idPlayer);
   }
   if (game.toUpdatePlayers.includes(idPlayer)) {
     toUpdate.players = true;
@@ -144,6 +149,22 @@ app.post("/api/uploadsprite/", (req, res) => {
     }
   });
   game.toUpdateSprite = game.toUpdateSprite.filter((elt) => elt !== idPlayer);
+  res.end();
+});
+
+app.post("/api/uploadplayer/", (req, res) => {
+  const idPlayer = Number(req.body.idPlayer);
+  console.log("upload player " + idPlayer);
+  const player = req.body.player;
+  game.players[player.n] = player;
+  game.players.map((elt) => {
+    if (elt.n != idPlayer) {
+      if (!game.toUpdatePlayer.includes(elt.n)) {
+        game.toUpdatePlayer.push(elt.n);
+      }
+    }
+  });
+  game.toUpdatePlayer = game.toUpdatePlayer.filter((elt) => elt !== idPlayer);
   res.end();
 });
 

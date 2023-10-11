@@ -103,7 +103,7 @@ export default function Game() {
           }    
           if (r.toUpdate.player) {
             const newPlayers = Object.assign([], players);
-            newPlayers[r.toUpdate.newPlayer.n] = r.toUpdate.newPlayers;
+            newPlayers[r.toUpdate.newPlayer.n] = r.toUpdate.newPlayer;
             setPlayers(newPlayers);
           }      
           if (r.toUpdate.players) {

@@ -4,7 +4,6 @@ class Game {
       this.ny = -1;
       this.decor = [];
       this.sprite = {};
-      this.player = {};
       this.players = [];
       this.fires = [];
       this.toUpdateDecor = [];
@@ -21,7 +20,6 @@ class Game {
       this.ny = -1;
       this.decor = [];
       this.sprite = {};
-      this.player = {};
       this.players = [];
       this.fires = [];
       this.toUpdateDecor = [];
@@ -31,7 +29,7 @@ class Game {
       this.toUpdateDecor = [];
       this.toUpdateFires = [];
       this.signals.clear();
-      this.idPlayersToDecreas = [];
+      this.idPlayersToDecrease = [];
     }
 
     nbPlayers() {

@@ -164,6 +164,22 @@ app.post("/api/uploadplayers/", (req, res) => {
   res.end();
 });
 
+app.post("/api/uploadplayer/", (req, res) => {
+  const idPlayer = Number(req.body.idPlayer);
+  console.log("upload player " + idPlayer);
+  const player = req.body.player;
+  game.players[player.n] = player;
+  game.players.map((elt) => {
+    if (elt.n != idPlayer) {
+      if (!game.toUpdatePlayers.includes(elt.n)) {
+        game.toUpdatePlayers.push(elt.n);
+      }
+    }
+  });
+  game.toUpdatePlayers = game.toUpdatePlayers.filter((elt) => elt !== idPlayer);
+  res.end();
+});
+
 app.post("/api/uploadfires/", (req, res) => {
   const idPlayer = Number(req.body.idPlayer);
   console.log("upload fires " + idPlayer);

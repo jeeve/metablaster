@@ -70,6 +70,23 @@ export function uploadSprite(idPlayer, sprite) {
   fetch("/api/uploadsprite/", init);
 }
 
+export function uploadPlayer(idPlayer, player) {
+  const init = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      idPlayer: idPlayer,
+      player: player,
+    }),
+    mode: "cors",
+    credentials: "same-origin",
+  };
+
+  fetch("/api/uploadplayer/", init);
+}
+
 export function uploadPlayers(idPlayer, players) {
   const init = {
     method: "POST",

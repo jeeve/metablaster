@@ -68,6 +68,7 @@ export default function Game() {
       const p = util.emptyRandomPosition(decor, nx, ny);
       const newPlayer = init.makePlayer(0, p.x, p.y);
       newPlayers.push(newPlayer);
+      api.uploadPlayers(playerId, newPlayers);
       setPlayers(newPlayers);
     }
   }, [decorOK]);
@@ -79,6 +80,7 @@ export default function Game() {
       console.log(p)
       const newPlayer = init.makePlayer(players.length, p.x, p.y);
       newPlayers.push(newPlayer);
+      api.uploadPlayers(playerId, newPlayers);
       setPlayers(newPlayers);
       console.log(newPlayers)
     }
@@ -130,13 +132,13 @@ export default function Game() {
       api.uploadDecor(playerId, nx, ny, decor);
     }
   }, [decor]);
-*/
+
   useEffect(() => {
     if (decorOK && !disableUpdate) {
       api.uploadPlayers(playerId, players);
     }
   }, [players]);
-
+*/
   useEffect(() => {
     if (decorOK && !disableUpdate) {
       api.uploadFires(playerId, fires);
@@ -330,6 +332,7 @@ export default function Game() {
               const newPlayers = Object.assign([], players);
               newPlayers[myPlayer().n].x = response.x;
               newPlayers[myPlayer().n].y = response.y;
+              api.uploadPlayer(playerId, newPlayers[myPlayer().n]);
               setPlayers(newPlayers);
             }
           });
@@ -344,6 +347,7 @@ export default function Game() {
               const newPlayers = Object.assign([], players);
               newPlayers[myPlayer().n].x = response.x;
               newPlayers[myPlayer().n].y = response.y;
+              api.uploadPlayer(playerId, newPlayers[myPlayer().n]);
               setPlayers(newPlayers);
             }
           });
@@ -358,6 +362,7 @@ export default function Game() {
               const newPlayers = Object.assign([], players);
               newPlayers[myPlayer().n].x = response.x;
               newPlayers[myPlayer().n].y = response.y;
+              api.uploadPlayer(playerId, newPlayers[myPlayer().n]);
               setPlayers(newPlayers);
             }
           });
@@ -372,6 +377,7 @@ export default function Game() {
               const newPlayers = Object.assign([], players);
               newPlayers[myPlayer().n].x = response.x;
               newPlayers[myPlayer().n].y = response.y;
+              api.uploadPlayer(playerId, newPlayers[myPlayer().n]);
               setPlayers(newPlayers);
             }
           });

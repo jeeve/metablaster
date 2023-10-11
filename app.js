@@ -62,7 +62,7 @@ app.get("/api/signal/:idplayer", (req, res) => {
   }
   if (game.toUpdatePlayer.includes(idPlayer)) {
     toUpdate.player = true;
-    toUpdate.newPlayer = game.players[idPlayer];
+    toUpdate.newPlayer = game.player;
     game.toUpdatePlayer = game.toUpdatePlayer.filter((elt) => elt !== idPlayer);
   }
   if (game.toUpdatePlayers.includes(idPlayer)) {
@@ -156,7 +156,7 @@ app.post("/api/uploadplayer/", (req, res) => {
   const idPlayer = Number(req.body.idPlayer);
   console.log("upload player " + idPlayer);
   const player = req.body.player;
-  game.players[player.n] = player;
+  game.player = player;
   game.players.map((elt) => {
     if (elt.n != idPlayer) {
       if (!game.toUpdatePlayer.includes(elt.n)) {

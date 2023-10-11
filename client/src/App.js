@@ -231,10 +231,11 @@ export default function Game() {
       ) {
         player.dead = true;
         player.score--;
+        api.uploadPlayer(playerId, player);
       }
     });
     newPlayers[decor[n].owner].bombs++;
-    api.uploadPlayer(playerId, newPlayers[decor[n].owner]);
+  
     setPlayers(newPlayers);
 
     const newDecor = Object.assign([], decor);

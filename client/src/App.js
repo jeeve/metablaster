@@ -100,6 +100,7 @@ export default function Game() {
             newDecor[r.toUpdate.newSprite.n] = r.toUpdate.newSprite;
             setDecor(newDecor);
           }        
+          /*
           if (r.toUpdate.players) {
             api.downloadPlayers(playerId).then((rep) => {
               setDisableUpdate(true);
@@ -107,6 +108,9 @@ export default function Game() {
               setYourName(rep.players[playerId].name);
             });
           }
+          */
+          setPlayers(r.toUpdate.newPlayers);
+          setYourName(r.toUpdate.players[playerId].name);
           if (r.toUpdate.fires) {
             api.downloadFires(playerId).then((rep) => {
               setDisableUpdate(true);
@@ -394,7 +398,7 @@ export default function Game() {
     return () => {
       clearInterval(interval);
     };
-  }, [displacement]);
+  }, [decorOK, displacement, players]);
 
   function handleInitGame() {
     api.initGame();

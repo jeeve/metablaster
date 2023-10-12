@@ -51,7 +51,7 @@ app.get("/api/signal/:idplayer", (req, res) => {
   const idPlayer = Number(req.params.idplayer);
   //console.log("signal " + idPlayer);
   game.signals.set(idPlayer, Date.now());
-  const toUpdate = { decor: false, sprite: false, players: false, fires: false, idPlayer: -1, newSprite: {} };
+  const toUpdate = { decor: false, sprite: false, players: false, fires: false, idPlayer: -1, newSprite: {}, newPlayers: {} };
   if (game.toUpdateDecor.includes(idPlayer)) {
     toUpdate.decor = true;
   }
@@ -60,9 +60,12 @@ app.get("/api/signal/:idplayer", (req, res) => {
     toUpdate.newSprite = game.sprite;
     game.toUpdateSprite = game.toUpdateSprite.filter((elt) => elt !== idPlayer);
   }
+  /*
   if (game.toUpdatePlayers.includes(idPlayer)) {
     toUpdate.players = true;
   }
+  */
+  toUpdate.newPlayers = game.players;
   if (game.toUpdateFires.includes(idPlayer)) {
     toUpdate.fires = true;
   }

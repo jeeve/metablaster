@@ -168,7 +168,17 @@ app.post("/api/uploadplayer/", (req, res) => {
   const idPlayer = Number(req.body.idPlayer);
   console.log("upload player " + idPlayer);
   const player = req.body.player;
-  game.players[player.n] = player;
+  //game.players[player.n] = player;
+
+  game.players[player.n].x = player.x;
+  game.players[player.n].y = player.y;
+  game.players[player.n].score = player.score;
+  game.players[player.n].dead = player.dead;
+  game.players[player.n].image = player.image;
+  game.players[player.n].n = player.n;
+  game.players[player.n].name = player.name;
+  game.players[player.n].bombs = player.bombs;
+  
   game.players.map((elt) => {
     if (elt.n != idPlayer) {
       if (!game.toUpdatePlayers.includes(elt.n)) {

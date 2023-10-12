@@ -233,6 +233,7 @@ export default function Game() {
       }
     });
     newPlayers[decor[n].owner].bombs++;
+    api.uploadPlayer(playerId, newPlayers[decor[n].owner]);
     setPlayers(newPlayers);
 
     const newDecor = Object.assign([], decor);
@@ -281,6 +282,7 @@ export default function Game() {
   const handleReborn = (n) => {
     const newPlayers = Object.assign([], players);
     newPlayers[n].dead = false;
+    newPlayers[n].bombs = init.nbBombsMax;
     api.uploadPlayer(playerId, newPlayers[n]);
     setPlayers(newPlayers);
   };

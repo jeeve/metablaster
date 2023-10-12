@@ -128,7 +128,7 @@ export default function Game() {
     return () => {
       clearInterval(interval);
     };
-  }, [decorOK]);
+  }, [decorOK, decor]);
 /*
   useEffect(() => {
     if (decorOK && !disableUpdate) {

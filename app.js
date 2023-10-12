@@ -182,7 +182,7 @@ app.post("/api/uploadplayer/", (req, res) => {
   game.players[player.n].name = player.name;
   game.players[player.n].bombs = player.bombs;
  
-  game.players.map((elt) => {
+  game.players.forEach((elt) => {
     if (elt.n != idPlayer) {
       if (!game.toUpdatePlayers.includes(elt.n)) {
         game.toUpdatePlayers.push(elt.n);

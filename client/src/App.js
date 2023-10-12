@@ -207,8 +207,9 @@ export default function Game() {
       if (player.bombs > 0) {
         newPlayers[player.n].bombs--;
       }
-      api.uploadPlayer(playerId, newPlayers[player.n]);
-      setPlayers(newPlayers);
+      api.uploadPlayer(playerId, newPlayers[player.n]).then(() => {
+        setPlayers(newPlayers);
+      });
     }
   }
 
@@ -233,8 +234,9 @@ export default function Game() {
       }
     });
     newPlayers[decor[n].owner].bombs++;
-    api.uploadPlayer(playerId, newPlayers[decor[n].owner]);
-    setPlayers(newPlayers);
+    api.uploadPlayer(playerId, newPlayers[decor[n].owner]).then(() => {
+      setPlayers(newPlayers);
+    });
 
     const newDecor = Object.assign([], decor);
     newDecor[n].image = ""; // remove bomb

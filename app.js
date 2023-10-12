@@ -181,7 +181,7 @@ app.post("/api/uploadplayer/", (req, res) => {
   game.players[player.n].n = player.n;
   game.players[player.n].name = player.name;
   game.players[player.n].bombs = player.bombs;
-  
+ /* 
   game.players.map((elt) => {
     if (elt.n != idPlayer) {
       if (!game.toUpdatePlayers.includes(elt.n)) {
@@ -190,6 +190,7 @@ app.post("/api/uploadplayer/", (req, res) => {
     }
   });
   game.toUpdatePlayers = game.toUpdatePlayers.filter((elt) => elt !== idPlayer);
+  */
   res.end();
 });
 

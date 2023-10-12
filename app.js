@@ -60,11 +60,11 @@ app.get("/api/signal/:idplayer", (req, res) => {
     toUpdate.newSprite = game.sprite;
     game.toUpdateSprite = game.toUpdateSprite.filter((elt) => elt !== idPlayer);
   }
-  /*
+
   if (game.toUpdatePlayers.includes(idPlayer)) {
     toUpdate.players = true;
   }
-  */
+
   toUpdate.newPlayers = game.players;
   if (game.toUpdateFires.includes(idPlayer)) {
     toUpdate.fires = true;
@@ -181,7 +181,7 @@ app.post("/api/uploadplayer/", (req, res) => {
   game.players[player.n].n = player.n;
   game.players[player.n].name = player.name;
   game.players[player.n].bombs = player.bombs;
- /* 
+ 
   game.players.map((elt) => {
     if (elt.n != idPlayer) {
       if (!game.toUpdatePlayers.includes(elt.n)) {
@@ -190,7 +190,7 @@ app.post("/api/uploadplayer/", (req, res) => {
     }
   });
   game.toUpdatePlayers = game.toUpdatePlayers.filter((elt) => elt !== idPlayer);
-  */
+
   res.end();
 });
 

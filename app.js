@@ -63,6 +63,7 @@ app.get("/api/signal/:idplayer", (req, res) => {
 
   if (game.toUpdatePlayers.includes(idPlayer)) {
     toUpdate.players = true;
+    game.toUpdatePlayers = game.toUpdatePlayers.filter((elt) => elt !== idPlayer);
   }
 
   toUpdate.newPlayers = game.players;

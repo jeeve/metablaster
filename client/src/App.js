@@ -102,7 +102,12 @@ export default function Game() {
           setDecor(newDecor);
         }
         if (r.toUpdate.players) {
-          setPlayers(r.toUpdate.newPlayers);
+          setPlayers((oldPlayers) => {
+            const newPlayers = r.toUpdate.newPlayers;
+            newPlayers[playerId].x = oldPlayers[playerId].x;
+            newPlayers[playerId].y = oldPlayers[playerId].y;
+            return newPlayers;
+          });
           setYourName(r.toUpdate.players[playerId].name);
         }
         if (r.toUpdate.fires) {

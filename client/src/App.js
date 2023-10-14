@@ -142,7 +142,7 @@ export default function Game() {
             oldPlayers,
             oldPlayers[playerId]
           );
-          if (x != -1 || y != -1) {
+          if (x !== -1 || y !== -1) {
             if (
               oldPlayers[oldPlayers[playerId].n].x != x ||
               oldPlayers[oldPlayers[playerId].n].y != y
@@ -165,7 +165,7 @@ export default function Game() {
             oldPlayers,
             oldPlayers[playerId]
           );
-          if (x != -1 || y != -1) {
+          if (x !== -1 || y !== -1) {
             if (
               oldPlayers[oldPlayers[playerId].n].x != x ||
               oldPlayers[oldPlayers[playerId].n].y != y
@@ -188,7 +188,7 @@ export default function Game() {
             oldPlayers,
             oldPlayers[playerId]
           );
-          if (x != -1 || y != -1) {
+          if (x !== -1 || y !== -1) {
             if (
               oldPlayers[oldPlayers[playerId].n].x != x ||
               oldPlayers[oldPlayers[playerId].n].y != y
@@ -211,7 +211,7 @@ export default function Game() {
             oldPlayers,
             oldPlayers[playerId]
           );
-          if (x != -1 || y != -1) {
+          if (x !== -1 || y !== -1) {
             if (
               oldPlayers[oldPlayers[playerId].n].x != x ||
               oldPlayers[oldPlayers[playerId].n].y != y

@@ -186,3 +186,11 @@ button {
   }
   
 }
+
+@media screen and (max-height: 750px) and (min-width: 767px) {
+
+  #controles {
+    margin-bottom: 20px;
+  }
+
+}

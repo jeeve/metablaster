@@ -212,9 +212,8 @@ export default function Game() {
       if (player.bombs > 0) {
         newPlayers[player.n].bombs--;
       }
-      api.uploadPlayer(playerId, newPlayers[player.n]).then(() => {
-        setPlayers(newPlayers);
-      });
+      api.uploadPlayer(playerId, newPlayers[player.n]);
+      setPlayers(newPlayers);
     }
   }
 
@@ -227,7 +226,7 @@ export default function Game() {
   }
 
   const handleExplode = (n) => {
-    const newPlayers = Object.assign([], players);
+    const newPlayers = players.map((item) => ({ ...item }));
     newPlayers.map((player) => {
       if (
         Math.abs(player.x - util.getI(n, nx) * 32) < 16 &&
@@ -239,11 +238,10 @@ export default function Game() {
       }
     });
     newPlayers[decor[n].owner].bombs++;
-    api.uploadPlayer(playerId, newPlayers[decor[n].owner]).then(() => {
-      setPlayers(newPlayers);
-    });
+    api.uploadPlayer(playerId, newPlayers[decor[n].owner]);
+    setPlayers(newPlayers);
 
-    const newDecor = Object.assign([], decor);
+    const newDecor = decor.map((item) => ({ ...item }));
     newDecor[n].image = ""; // remove bomb
     setDecor(newDecor);
     api.uploadSprite(playerId, newDecor[n]);

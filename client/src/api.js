@@ -70,7 +70,7 @@ export function uploadSprite(idPlayer, sprite) {
   fetch("/api/uploadsprite/", init);
 }
 
-export async function uploadPlayer(idPlayer, player) {
+export function uploadPlayer(idPlayer, player) {
   const init = {
     method: "POST",
     headers: {
@@ -84,7 +84,7 @@ export async function uploadPlayer(idPlayer, player) {
     credentials: "same-origin",
   };
 
-  await fetch("/api/uploadplayer/", init);
+  fetch("/api/uploadplayer/", init);
 }
 
 export async function uploadPlayers(idPlayer, players) {

@@ -44,12 +44,12 @@ export default function Game() {
           });
         });
       } else {
-        const nx0 = Math.floor(window.innerWidth / 32); 
+        const nx0 = Math.floor(window.innerWidth / 32);
         const ni0 = nx0 <= 20 ? nx0 : 20;
         const nj0 = 15;
         setNx(ni0);
         setNy(nj0);
-        const decor0 = init.makeDecor(ni0, nj0)
+        const decor0 = init.makeDecor(ni0, nj0);
         setDecor(decor0);
         api.uploadDecor(0, ni0, nj0, decor0);
         setDecorOK(true);
@@ -68,7 +68,7 @@ export default function Game() {
       const newPlayer = init.makePlayer(0, p.x, p.y);
       newPlayers.push(newPlayer);
       api.uploadPlayers(playerId, newPlayers).then(() => {
-      setPlayers(newPlayers);
+        setPlayers(newPlayers);
       });
     }
   }, [decorOK]);
@@ -77,13 +77,13 @@ export default function Game() {
     if (decorOK && playerId > 0) {
       const newPlayers = Object.assign([], players);
       const p = util.emptyRandomPosition(decor, nx, ny);
-      console.log(p)
+      console.log(p);
       const newPlayer = init.makePlayer(players.length, p.x, p.y);
       newPlayers.push(newPlayer);
       api.uploadPlayers(playerId, newPlayers).then(() => {
         setPlayers(newPlayers);
       });
-      console.log(newPlayers)
+      console.log(newPlayers);
     }
   }, [decorOK, changePlayer]);
 
@@ -101,7 +101,7 @@ export default function Game() {
             const newDecor = Object.assign([], decor);
             newDecor[r.toUpdate.newSprite.n] = r.toUpdate.newSprite;
             setDecor(newDecor);
-          }        
+          }
           /*
           if (r.toUpdate.players) {
             api.downloadPlayers(playerId).then((rep) => {
@@ -133,7 +133,7 @@ export default function Game() {
       clearInterval(interval);
     };
   }, [decorOK, decor]);
-/*
+  /*
   useEffect(() => {
     if (decorOK && !disableUpdate) {
       api.uploadDecor(playerId, nx, ny, decor);
@@ -340,62 +340,94 @@ export default function Game() {
     const interval = setInterval(() => {
       switch (displacement) {
         case "left": {
-          engine.tryToGoLeft(decor, players, myPlayer()).then((response) => {
-            if (
-              players[myPlayer().n].x != response.x ||
-              players[myPlayer().n].y != response.y
-            ) {
-              const newPlayers = Object.assign([], players);
-              newPlayers[myPlayer().n].x = response.x;
-              newPlayers[myPlayer().n].y = response.y;
-              api.uploadPlayer(playerId, newPlayers[myPlayer().n]);
-              setPlayers(newPlayers);
+          setPlayers((oldPlayers) => {
+            const { x, y } = engine.tryToGoLeft(
+              decor,
+              oldPlayers,
+              oldPlayers[playerId]
+            );
+            if (x != -1 || y != -1) {
+              if (
+                oldPlayers[oldPlayers[playerId].n].x != x ||
+                oldPlayers[oldPlayers[playerId].n].y != y
+              ) {
+                const newPlayers = oldPlayers.map((item) => ({ ...item }));
+                newPlayers[oldPlayers[playerId].n].x = x;
+                newPlayers[oldPlayers[playerId].n].y = y;
+                api.uploadPlayer(playerId, newPlayers[oldPlayers[playerId].n]);
+                return newPlayers;
+              }
             }
+            return oldPlayers;
           });
           break;
         }
         case "right": {
-          engine.tryToGoRight(decor, players, myPlayer()).then((response) => {
-            if (
-              players[myPlayer().n].x != response.x ||
-              players[myPlayer().n].y != response.y
-            ) {
-              const newPlayers = Object.assign([], players);
-              newPlayers[myPlayer().n].x = response.x;
-              newPlayers[myPlayer().n].y = response.y;
-              api.uploadPlayer(playerId, newPlayers[myPlayer().n]);
-              setPlayers(newPlayers);
+          setPlayers((oldPlayers) => {
+            const { x, y } = engine.tryToGoRight(
+              decor,
+              oldPlayers,
+              oldPlayers[playerId]
+            );
+            if (x != -1 || y != -1) {
+              if (
+                oldPlayers[oldPlayers[playerId].n].x != x ||
+                oldPlayers[oldPlayers[playerId].n].y != y
+              ) {
+                const newPlayers = oldPlayers.map((item) => ({ ...item }));
+                newPlayers[oldPlayers[playerId].n].x = x;
+                newPlayers[oldPlayers[playerId].n].y = y;
+                api.uploadPlayer(playerId, newPlayers[oldPlayers[playerId].n]);
+                return newPlayers;
+              }
             }
+            return oldPlayers;
           });
           break;
         }
         case "down": {
-          engine.tryToGoDown(decor, players, myPlayer()).then((response) => {
-            if (
-              players[myPlayer().n].x != response.x ||
-              players[myPlayer().n].y != response.y
-            ) {
-              const newPlayers = Object.assign([], players);
-              newPlayers[myPlayer().n].x = response.x;
-              newPlayers[myPlayer().n].y = response.y;
-              api.uploadPlayer(playerId, newPlayers[myPlayer().n]);
-              setPlayers(newPlayers);
+          setPlayers((oldPlayers) => {
+            const { x, y } = engine.tryToGoDown(
+              decor,
+              oldPlayers,
+              oldPlayers[playerId]
+            );
+            if (x != -1 || y != -1) {
+              if (
+                oldPlayers[oldPlayers[playerId].n].x != x ||
+                oldPlayers[oldPlayers[playerId].n].y != y
+              ) {
+                const newPlayers = oldPlayers.map((item) => ({ ...item }));
+                newPlayers[oldPlayers[playerId].n].x = x;
+                newPlayers[oldPlayers[playerId].n].y = y;
+                api.uploadPlayer(playerId, newPlayers[oldPlayers[playerId].n]);
+                return newPlayers;
+              }
             }
+            return oldPlayers;
           });
           break;
         }
         case "up": {
-          engine.tryToGoUp(decor, players, myPlayer()).then((response) => {
-            if (
-              players[myPlayer().n].x != response.x ||
-              players[myPlayer().n].y != response.y
-            ) {
-              const newPlayers = Object.assign([], players);
-              newPlayers[myPlayer().n].x = response.x;
-              newPlayers[myPlayer().n].y = response.y;
-              api.uploadPlayer(playerId, newPlayers[myPlayer().n]);
-              setPlayers(newPlayers);
+          setPlayers((oldPlayers) => {
+            const { x, y } = engine.tryToGoUp(
+              decor,
+              oldPlayers,
+              oldPlayers[playerId]
+            );
+            if (x != -1 || y != -1) {
+              if (
+                oldPlayers[oldPlayers[playerId].n].x != x ||
+                oldPlayers[oldPlayers[playerId].n].y != y
+              ) {
+                const newPlayers = oldPlayers.map((item) => ({ ...item }));
+                newPlayers[oldPlayers[playerId].n].x = x;
+                newPlayers[oldPlayers[playerId].n].y = y;
+                api.uploadPlayer(playerId, newPlayers[oldPlayers[playerId].n]);
+                return newPlayers;
+              }
             }
+            return oldPlayers;
           });
           break;
         }
@@ -492,7 +524,7 @@ export default function Game() {
             ni={nx}
           />
         ))}
-        <Help ni={nx} ></Help>
+        <Help ni={nx}></Help>
       </div>
       <Controls
         onDisplacement={handleControlDisplacement}

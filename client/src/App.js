@@ -234,7 +234,7 @@ export default function Game() {
     return () => {
       clearInterval(interval);
     };
-  }, [displacementCallback]);
+  }, [displacementCallback, signalCallback]);
 
   useEffect(() => {
     if (decorOK && !disableUpdate) {

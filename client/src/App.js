@@ -102,15 +102,6 @@ export default function Game() {
             newDecor[r.toUpdate.newSprite.n] = r.toUpdate.newSprite;
             setDecor(newDecor);
           }
-          /*
-          if (r.toUpdate.players) {
-            api.downloadPlayers(playerId).then((rep) => {
-              setDisableUpdate(true);
-              setPlayers(rep.players);
-              setYourName(rep.players[playerId].name);
-            });
-          }
-          */
           if (r.toUpdate.players) {
             setPlayers(r.toUpdate.newPlayers);
             setYourName(r.toUpdate.players[playerId].name);
@@ -133,19 +124,7 @@ export default function Game() {
       clearInterval(interval);
     };
   }, [decorOK, decor]);
-  /*
-  useEffect(() => {
-    if (decorOK && !disableUpdate) {
-      api.uploadDecor(playerId, nx, ny, decor);
-    }
-  }, [decor]);
 
-  useEffect(() => {
-    if (decorOK && !disableUpdate) {
-      api.uploadPlayers(playerId, players);
-    }
-  }, [players]);
-*/
   useEffect(() => {
     if (decorOK && !disableUpdate) {
       api.uploadFires(playerId, fires);

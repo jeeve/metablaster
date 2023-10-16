@@ -108,7 +108,7 @@ export default function Game() {
             newPlayers[playerId].y = oldPlayers[playerId].y;
             return newPlayers;
           });
-          setYourName(r.toUpdate.players[playerId].name);
+          setYourName(r.toUpdate.newPlayers[playerId].name);
         }
         if (r.toUpdate.fires) {
           api.downloadFires(playerId).then((rep) => {
@@ -265,10 +265,9 @@ export default function Game() {
     if (decorOK) {
       const newPlayers = Object.assign([], players);
       newPlayers[playerId].name = e.target.value;
-      api.uploadPlayer(playerId, newPlayers[playerId]).then(() => {
-        setPlayers(players);
-        setYourName(e.target.value);
-      });
+      api.uploadPlayer(playerId, newPlayers[playerId]);
+      setPlayers(players);
+      setYourName(e.target.value);
     }
   };
 

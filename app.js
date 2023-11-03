@@ -180,7 +180,7 @@ app.post("/api/uploadplayer/", (req, res) => {
       }
     }
   });
-  game.toUpdatePlayers = game.toUpdatePlayers.filter((elt) => elt !== idPlayer);
+  //game.toUpdatePlayers = game.toUpdatePlayers.filter((elt) => elt !== idPlayer);
   res.end();
 });
 

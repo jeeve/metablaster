@@ -131,7 +131,7 @@ app.post("/api/uploaddecor/", (req, res) => {
       }
     }
   });
-  game.toUpdateDecor = game.toUpdateDecor.filter((elt) => elt !== idPlayer);
+  //game.toUpdateDecor = game.toUpdateDecor.filter((elt) => elt !== idPlayer);
   res.end();
 });
 

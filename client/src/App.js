@@ -129,7 +129,7 @@ export default function Game() {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [decorOK, decor]);
 
 
   useEffect(() => {
@@ -237,7 +237,7 @@ export default function Game() {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [displacement]);
 
   useEffect(() => {
     if (decorOK && !disableUpdate) {

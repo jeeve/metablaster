@@ -63,10 +63,10 @@ app.get("/api/signal/:idplayer", (req, res) => {
 
   if (game.toUpdatePlayers.includes(idPlayer)) {
     toUpdate.players = true;
+    toUpdate.newPlayers = game.players;
     game.toUpdatePlayers = game.toUpdatePlayers.filter((elt) => elt !== idPlayer);
   }
 
-  toUpdate.newPlayers = game.players;
   if (game.toUpdateFires.includes(idPlayer)) {
     toUpdate.fires = true;
   }
@@ -107,7 +107,7 @@ app.post("/api/uploadgame/", (req, res) => {
     }
   });
   game.players.map((elt) => {
-    if (elt.n != idPlayer) {
+    if (elt.n !== idPlayer) {
       if (!game.toUpdatePlayers.includes(elt.n)) {
         game.toUpdatePlayers.push(elt.n);
       }
@@ -125,7 +125,7 @@ app.post("/api/uploaddecor/", (req, res) => {
   game.ny = req.body.ny;
   game.decor = req.body.decor;
   game.players.map((elt) => {
-    if (elt.n != idPlayer) {
+    if (elt.n !== idPlayer) {
       if (!game.toUpdateDecor.includes(elt.n)) {
         game.toUpdateDecor.push(elt.n);
       }
@@ -141,7 +141,7 @@ app.post("/api/uploadsprite/", (req, res) => {
   const sprite = req.body.sprite;
   game.sprite = sprite;
   game.players.map((elt) => {
-    if (elt.n != idPlayer) {
+    if (elt.n !== idPlayer) {
       if (!game.toUpdateSprite.includes(elt.n)) {
         game.toUpdateSprite.push(elt.n);
       }
@@ -157,7 +157,7 @@ app.post("/api/uploadplayers/", (req, res) => {
   game.players = req.body.players;
   console.log(game.toUpdatePlayers);
   game.players.map((elt) => {
-    if (elt.n != idPlayer) {
+    if (elt.n !== idPlayer) {
       if (!game.toUpdatePlayers.includes(elt.n)) {
         game.toUpdatePlayers.push(elt.n);
       }
@@ -172,26 +172,15 @@ app.post("/api/uploadplayer/", (req, res) => {
   const idPlayer = Number(req.body.idPlayer);
   console.log("upload player " + idPlayer);
   const player = req.body.player;
-  //game.players[player.n] = player;
-
-  game.players[player.n].x = player.x;
-  game.players[player.n].y = player.y;
-  game.players[player.n].score = player.score;
-  game.players[player.n].dead = player.dead;
-  game.players[player.n].image = player.image;
-  game.players[player.n].n = player.n;
-  game.players[player.n].name = player.name;
-  game.players[player.n].bombs = player.bombs;
- 
+  game.players[player.n] = player;
   game.players.forEach((elt) => {
-    if (elt.n != idPlayer) {
+    if (elt.n !== idPlayer) {
       if (!game.toUpdatePlayers.includes(elt.n)) {
         game.toUpdatePlayers.push(elt.n);
       }
     }
   });
   game.toUpdatePlayers = game.toUpdatePlayers.filter((elt) => elt !== idPlayer);
-
   res.end();
 });
 
@@ -201,7 +190,7 @@ app.post("/api/uploadfires/", (req, res) => {
   game.fires = req.body.fires;
   console.log(game.toUpdateFires);
   game.players.map((elt) => {
-    if (elt.n != idPlayer) {
+    if (elt.n !== idPlayer) {
       if (!game.toUpdateFires.includes(elt.n)) {
         game.toUpdateFires.push(elt.n);
       }

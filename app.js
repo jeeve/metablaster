@@ -147,7 +147,7 @@ app.post("/api/uploadsprite/", (req, res) => {
       }
     }
   });
-  game.toUpdateSprite = game.toUpdateSprite.filter((elt) => elt !== idPlayer);
+  //game.toUpdateSprite = game.toUpdateSprite.filter((elt) => elt !== idPlayer);
   res.end();
 });
 
@@ -196,7 +196,7 @@ app.post("/api/uploadfires/", (req, res) => {
       }
     }
   });
-  game.toUpdateFires = game.toUpdateFires.filter((elt) => elt !== idPlayer);
+  //game.toUpdateFires = game.toUpdateFires.filter((elt) => elt !== idPlayer);
   console.log(game.toUpdateFires);
   res.end();
 });

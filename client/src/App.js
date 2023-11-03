@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import Sprite from "./components/Sprite";
 import Bomb from "./components/Bomb";
 import Fire from "./components/Fire";
@@ -87,159 +87,157 @@ export default function Game() {
     }
   }, [decorOK, changePlayer]);
 
-  const signalCallback = useCallback(() => {
-    if (decorOK) {
-      api.signal(playerId).then((r) => {
-        if (r.toUpdate.decor) {
-          api.downloadDecor(playerId).then((rep) => {
-            setDisableUpdate(true);
-            setDecor(rep.decor);
-          });
-        }
-        if (r.toUpdate.sprite) {
-          const newDecor = Object.assign([], decor);
-          newDecor[r.toUpdate.newSprite.n] = r.toUpdate.newSprite;
-          setDecor(newDecor);
-        }
-        if (r.toUpdate.players) {
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (decorOK) {
+        api.signal(playerId).then((r) => {
+          if (r.toUpdate.decor) {
+            api.downloadDecor(playerId).then((rep) => {
+              setDisableUpdate(true);
+              setDecor(rep.decor);
+            });
+          }
+          if (r.toUpdate.sprite) {
+            const newDecor = Object.assign([], decor);
+            newDecor[r.toUpdate.newSprite.n] = r.toUpdate.newSprite;
+            setDecor(newDecor);
+          }
+          if (r.toUpdate.players) {
+            setPlayers((oldPlayers) => {
+              const newPlayers = r.toUpdate.newPlayers;
+              newPlayers[playerId].x = oldPlayers[playerId].x;
+              newPlayers[playerId].y = oldPlayers[playerId].y;
+              return newPlayers;
+            });
+            setYourName(r.toUpdate.newPlayers[playerId].name);
+          }
+          if (r.toUpdate.fires) {
+            api.downloadFires(playerId).then((rep) => {
+              setDisableUpdate(true);
+              setFires(rep.fires);
+            });
+          }
+          if (r.toUpdate.idPlayer > -1) {
+            console.log(r.toUpdate.idPlayer);
+            setPlayerId(r.toUpdate.idPlayer);
+          }
+        });
+      }
+      setDisableUpdate(false);
+    }, 100);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      switch (displacement) {
+        case "left": {
           setPlayers((oldPlayers) => {
-            const newPlayers = r.toUpdate.newPlayers;
-            newPlayers[playerId].x = oldPlayers[playerId].x;
-            newPlayers[playerId].y = oldPlayers[playerId].y;
-            return newPlayers;
+            const { x, y } = engine.tryToGoLeft(
+              decor,
+              oldPlayers,
+              oldPlayers[playerId]
+            );
+            if (x !== -1 || y !== -1) {
+              if (
+                oldPlayers[oldPlayers[playerId].n].x != x ||
+                oldPlayers[oldPlayers[playerId].n].y != y
+              ) {
+                const newPlayers = oldPlayers.map((item) => ({ ...item }));
+                newPlayers[oldPlayers[playerId].n].x = x;
+                newPlayers[oldPlayers[playerId].n].y = y;
+                api.uploadPlayer(playerId, newPlayers[oldPlayers[playerId].n]);
+                return newPlayers;
+              }
+            }
+            return oldPlayers;
           });
-          setYourName(r.toUpdate.newPlayers[playerId].name);
+          break;
         }
-        if (r.toUpdate.fires) {
-          api.downloadFires(playerId).then((rep) => {
-            setDisableUpdate(true);
-            setFires(rep.fires);
+        case "right": {
+          setPlayers((oldPlayers) => {
+            const { x, y } = engine.tryToGoRight(
+              decor,
+              oldPlayers,
+              oldPlayers[playerId]
+            );
+            if (x !== -1 || y !== -1) {
+              if (
+                oldPlayers[oldPlayers[playerId].n].x != x ||
+                oldPlayers[oldPlayers[playerId].n].y != y
+              ) {
+                const newPlayers = oldPlayers.map((item) => ({ ...item }));
+                newPlayers[oldPlayers[playerId].n].x = x;
+                newPlayers[oldPlayers[playerId].n].y = y;
+                api.uploadPlayer(playerId, newPlayers[oldPlayers[playerId].n]);
+                return newPlayers;
+              }
+            }
+            return oldPlayers;
           });
+          break;
         }
-        if (r.toUpdate.idPlayer > -1) {
-          console.log(r.toUpdate.idPlayer);
-          setPlayerId(r.toUpdate.idPlayer);
+        case "down": {
+          setPlayers((oldPlayers) => {
+            const { x, y } = engine.tryToGoDown(
+              decor,
+              oldPlayers,
+              oldPlayers[playerId]
+            );
+            if (x !== -1 || y !== -1) {
+              if (
+                oldPlayers[oldPlayers[playerId].n].x != x ||
+                oldPlayers[oldPlayers[playerId].n].y != y
+              ) {
+                const newPlayers = oldPlayers.map((item) => ({ ...item }));
+                newPlayers[oldPlayers[playerId].n].x = x;
+                newPlayers[oldPlayers[playerId].n].y = y;
+                api.uploadPlayer(playerId, newPlayers[oldPlayers[playerId].n]);
+                return newPlayers;
+              }
+            }
+            return oldPlayers;
+          });
+          break;
         }
-      });
-    }
-    setDisableUpdate(false);
-  }, [decorOK, decor]);
-
-  useEffect(() => {
-    const interval = setInterval(signalCallback, 100);
+        case "up": {
+          setPlayers((oldPlayers) => {
+            const { x, y } = engine.tryToGoUp(
+              decor,
+              oldPlayers,
+              oldPlayers[playerId]
+            );
+            if (x !== -1 || y !== -1) {
+              if (
+                oldPlayers[oldPlayers[playerId].n].x != x ||
+                oldPlayers[oldPlayers[playerId].n].y != y
+              ) {
+                const newPlayers = oldPlayers.map((item) => ({ ...item }));
+                newPlayers[oldPlayers[playerId].n].x = x;
+                newPlayers[oldPlayers[playerId].n].y = y;
+                api.uploadPlayer(playerId, newPlayers[oldPlayers[playerId].n]);
+                return newPlayers;
+              }
+            }
+            return oldPlayers;
+          });
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+  
+    }, init.speed);
 
     return () => {
       clearInterval(interval);
     };
-  }, [signalCallback]);
-
-  const displacementCallback = useCallback(() => {
-    switch (displacement) {
-      case "left": {
-        setPlayers((oldPlayers) => {
-          const { x, y } = engine.tryToGoLeft(
-            decor,
-            oldPlayers,
-            oldPlayers[playerId]
-          );
-          if (x !== -1 || y !== -1) {
-            if (
-              oldPlayers[oldPlayers[playerId].n].x != x ||
-              oldPlayers[oldPlayers[playerId].n].y != y
-            ) {
-              const newPlayers = oldPlayers.map((item) => ({ ...item }));
-              newPlayers[oldPlayers[playerId].n].x = x;
-              newPlayers[oldPlayers[playerId].n].y = y;
-              api.uploadPlayer(playerId, newPlayers[oldPlayers[playerId].n]);
-              return newPlayers;
-            }
-          }
-          return oldPlayers;
-        });
-        break;
-      }
-      case "right": {
-        setPlayers((oldPlayers) => {
-          const { x, y } = engine.tryToGoRight(
-            decor,
-            oldPlayers,
-            oldPlayers[playerId]
-          );
-          if (x !== -1 || y !== -1) {
-            if (
-              oldPlayers[oldPlayers[playerId].n].x != x ||
-              oldPlayers[oldPlayers[playerId].n].y != y
-            ) {
-              const newPlayers = oldPlayers.map((item) => ({ ...item }));
-              newPlayers[oldPlayers[playerId].n].x = x;
-              newPlayers[oldPlayers[playerId].n].y = y;
-              api.uploadPlayer(playerId, newPlayers[oldPlayers[playerId].n]);
-              return newPlayers;
-            }
-          }
-          return oldPlayers;
-        });
-        break;
-      }
-      case "down": {
-        setPlayers((oldPlayers) => {
-          const { x, y } = engine.tryToGoDown(
-            decor,
-            oldPlayers,
-            oldPlayers[playerId]
-          );
-          if (x !== -1 || y !== -1) {
-            if (
-              oldPlayers[oldPlayers[playerId].n].x != x ||
-              oldPlayers[oldPlayers[playerId].n].y != y
-            ) {
-              const newPlayers = oldPlayers.map((item) => ({ ...item }));
-              newPlayers[oldPlayers[playerId].n].x = x;
-              newPlayers[oldPlayers[playerId].n].y = y;
-              api.uploadPlayer(playerId, newPlayers[oldPlayers[playerId].n]);
-              return newPlayers;
-            }
-          }
-          return oldPlayers;
-        });
-        break;
-      }
-      case "up": {
-        setPlayers((oldPlayers) => {
-          const { x, y } = engine.tryToGoUp(
-            decor,
-            oldPlayers,
-            oldPlayers[playerId]
-          );
-          if (x !== -1 || y !== -1) {
-            if (
-              oldPlayers[oldPlayers[playerId].n].x != x ||
-              oldPlayers[oldPlayers[playerId].n].y != y
-            ) {
-              const newPlayers = oldPlayers.map((item) => ({ ...item }));
-              newPlayers[oldPlayers[playerId].n].x = x;
-              newPlayers[oldPlayers[playerId].n].y = y;
-              api.uploadPlayer(playerId, newPlayers[oldPlayers[playerId].n]);
-              return newPlayers;
-            }
-          }
-          return oldPlayers;
-        });
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-  }, [decorOK, displacement, players]);
-
-  useEffect(() => {
-    const interval = setInterval(displacementCallback, init.speed);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [displacementCallback, signalCallback]);
+  }, []);
 
   useEffect(() => {
     if (decorOK && !disableUpdate) {

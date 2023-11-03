@@ -98,9 +98,11 @@ export default function Game() {
             });
           }
           if (r.toUpdate.sprite) {
-            const newDecor = Object.assign([], decor);
-            newDecor[r.toUpdate.newSprite.n] = r.toUpdate.newSprite;
-            setDecor(newDecor);
+            setDecor((oldDecor) => {
+              const newDecor = oldDecor.map((item) => ({ ...item }));
+              newDecor[r.toUpdate.newSprite.n] = r.toUpdate.newSprite;
+              return newDecor;
+            });
           }
           if (r.toUpdate.players) {
             setPlayers((oldPlayers) => {
@@ -129,7 +131,7 @@ export default function Game() {
     return () => {
       clearInterval(interval);
     };
-  }, [decorOK, decor]);
+  }, [decorOK]);
 
 
   useEffect(() => {

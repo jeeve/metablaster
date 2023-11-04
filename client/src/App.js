@@ -99,7 +99,7 @@ export default function Game() {
           }
           if (r.toUpdate.sprite) {
             setDecor((oldDecor) => {
-              const newDecor = oldDecor.map((item) => ({ ...item }));
+              const newDecor = [...oldDecor];
               newDecor[r.toUpdate.newSprite.n] = r.toUpdate.newSprite;
               return newDecor;
             });

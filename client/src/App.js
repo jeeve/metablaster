@@ -109,6 +109,7 @@ export default function Game() {
               const newPlayers = r.toUpdate.newPlayers;
               newPlayers[playerId].x = oldPlayers[playerId].x;
               newPlayers[playerId].y = oldPlayers[playerId].y;
+              newPlayers[playerId].bombs = oldPlayers[playerId].bombs;
               return newPlayers;
             });
             setYourName(r.toUpdate.newPlayers[playerId].name);

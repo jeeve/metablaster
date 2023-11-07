@@ -19,6 +19,11 @@ app.get("/", function (request, response) {
   response.sendFile("./index.html", { root: __dirname + '/public' });
 });
 
+app.use(express.static("saisietemps"));
+app.get("/saisietemps", function (request, response) {
+  response.sendFile("./index.html", { root: __dirname + '/saisietemps' });
+});
+
 const { game } = require("./models/game");
 
 app.get("/api/init", (req, res) => {

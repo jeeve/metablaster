@@ -1,8 +1,15 @@
 import * as init from "./init";
 import * as util from "./util";
 
+function isStacked(sprite1, sprite2) {
+  return Math.abs(sprite1.x - sprite2.x) <= init.dx && Math.abs(sprite1.y - sprite2.y) <= init.dx;
+}
+
 export function tryToGoLeft(decor, players, player) {
   function isInZonePlayer(sprite) {
+    if (isStacked(player, sprite)) {
+      return false;
+    }
     return (
       sprite.y <= player.y + 64 &&
       sprite.y >= player.y - 64 &&
@@ -150,6 +157,9 @@ export function tryToGoLeft(decor, players, player) {
 
 export function tryToGoRight(decor, players, player) {
   function isInZonePlayer(sprite) {
+    if (isStacked(player, sprite)) {
+      return false;
+    }
     return (
       sprite.y <= player.y + 64 &&
       sprite.y >= player.y - 64 &&
@@ -297,6 +307,9 @@ export function tryToGoRight(decor, players, player) {
 
 export function tryToGoUp(decor, players, player) {
   function isInZonePlayer(sprite) {
+    if (isStacked(player, sprite)) {
+      return false;
+    }
     return (
       sprite.x <= player.x + 64 &&
       sprite.x >= player.x - 64 &&
@@ -444,6 +457,9 @@ export function tryToGoUp(decor, players, player) {
 
 export function tryToGoDown(decor, players, player) {
   function isInZonePlayer(sprite) {
+    if (isStacked(player, sprite)) {
+      return false;
+    }
     return (
       sprite.x <= player.x + 64 &&
       sprite.x >= player.x - 64 &&

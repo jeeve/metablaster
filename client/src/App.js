@@ -127,13 +127,12 @@ export default function Game() {
         });
       }
       setDisableUpdate(false);
-    }, 100);
+    }, 50);
 
     return () => {
       clearInterval(interval);
     };
   }, [decorOK]);
-
 
   useEffect(() => {
     const interval = setInterval(() => {

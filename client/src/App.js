@@ -127,7 +127,7 @@ export default function Game() {
         });
       }
       setDisableUpdate(false);
-    }, 50);
+    }, 200);
 
     return () => {
       clearInterval(interval);

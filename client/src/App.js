@@ -19,6 +19,7 @@ export default function Game() {
   const [playerId, setPlayerId] = useState(-1);
   const [soundOn, setSoundOn] = useState(false);
   const [displayName, setDisplayName] = useState(true);
+  const [autoMode, setAutoMode] = useState(false);
   const [yourName, setYourName] = useState(1);
   const [decor, setDecor] = useState([]);
   const [decorOK, setDecorOK] = useState(false);
@@ -27,7 +28,7 @@ export default function Game() {
   const [disableUpdate, setDisableUpdate] = useState(false);
   const [displacement, setDisplacement] = useState("");
   const [changePlayer, setChangePlayer] = useState(false);
-  const [robotInertia, setRobotInertia] = useState(10);
+  const [robotInertia, setRobotInertia] = useState(init.robotAgitation);
 
   useEffect(() => {
     api.getNbPlayers(playerId).then((nbPlayers) => {
@@ -256,10 +257,10 @@ export default function Game() {
       console.log(newPlayers);
     }
   }, [decorOK, changePlayer]);
-/*
+
   useEffect(() => {
     const interval = setInterval(() => {
-      if (decorOK) {
+      if (decorOK && autoMode) {
         robot.moveRobot(decor, robotInertia, setRobotInertia, players, myPlayer, dropBomb, fires, nx, setDisplacement);
       }
     }, 500);
@@ -267,8 +268,8 @@ export default function Game() {
     return () => {
       clearInterval(interval);
     };
-  }, [decorOK, decor, players, fires]);
-*/
+  }, [decorOK, decor, players, fires, autoMode]);
+
   useEffect(() => {
     if (decorOK && !disableUpdate) {
       api.uploadFires(playerId, fires);
@@ -287,6 +288,10 @@ export default function Game() {
 
   const handleDisplayName = () => {
     setDisplayName(!displayName);
+  };
+
+  const handleAutoModeChange = () => {
+    setAutoMode(!autoMode);
   };
 
   const handleYourNameChange = (e) => {
@@ -579,6 +584,14 @@ export default function Game() {
         ) : (
           <></>
         )}
+        <label htmlFor="sep"> | </label>
+        <input
+          type="checkbox"
+          checked={autoMode}
+          onChange={handleAutoModeChange}
+          name="automode"
+        />
+        <label htmlFor="mode">auto</label>
       </div>
       <div id="auteur">
         <a href="https://greduvent.herokuapp.com/" target="_blank">

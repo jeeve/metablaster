@@ -9,6 +9,7 @@ import Help from "./components/Help";
 import * as init from "./init";
 import * as util from "./util";
 import * as engine from "./engine";
+import * as robot from "./robot";
 import * as api from "./api";
 
 export default function Game() {
@@ -26,6 +27,7 @@ export default function Game() {
   const [disableUpdate, setDisableUpdate] = useState(false);
   const [displacement, setDisplacement] = useState("");
   const [changePlayer, setChangePlayer] = useState(false);
+  const [robotInertia, setRobotInertia] = useState(10);
 
   useEffect(() => {
     api.getNbPlayers(playerId).then((nbPlayers) => {
@@ -241,6 +243,32 @@ export default function Game() {
     };
   }, [displacement]);
 
+  useEffect(() => {
+    if (decorOK && playerId > 0) {
+      const newPlayers = Object.assign([], players);
+      const p = util.emptyRandomPosition(decor, nx, ny);
+      console.log(p);
+      const newPlayer = init.makePlayer(players.length, p.x, p.y);
+      newPlayers.push(newPlayer);
+      api.uploadPlayers(playerId, newPlayers).then(() => {
+        setPlayers(newPlayers);
+      });
+      console.log(newPlayers);
+    }
+  }, [decorOK, changePlayer]);
+/*
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (decorOK) {
+        robot.moveRobot(decor, robotInertia, setRobotInertia, players, myPlayer, dropBomb, fires, nx, setDisplacement);
+      }
+    }, 500);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [decorOK, decor, players, fires]);
+*/
   useEffect(() => {
     if (decorOK && !disableUpdate) {
       api.uploadFires(playerId, fires);

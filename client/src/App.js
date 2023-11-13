@@ -263,12 +263,12 @@ export default function Game() {
       if (decorOK && autoMode) {
         robot.moveRobot(decor, robotInertia, setRobotInertia, players, myPlayer, dropBomb, fires, nx, setDisplacement);
       }
-    }, 500);
+    }, 50);
 
     return () => {
       clearInterval(interval);
     };
-  }, [decorOK, decor, players, fires, autoMode]);
+  }, [decorOK, decor, players, fires, autoMode, robotInertia]);
 
   useEffect(() => {
     if (decorOK && !disableUpdate) {

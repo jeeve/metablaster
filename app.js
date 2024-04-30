@@ -24,6 +24,11 @@ app.get("/saisietemps", function (request, response) {
   response.sendFile("./index.html", { root: __dirname + '/saisietemps' });
 });
 
+app.use(express.static("monoblaster"));
+app.get("/monoblaster", function (request, response) {
+  response.sendFile("./index.html", { root: __dirname + '/monoblaster' });
+});
+
 const { game } = require("./models/game");
 
 app.get("/api/init", (req, res) => {
